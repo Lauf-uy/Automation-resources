@@ -1,0 +1,602 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "65aff44c-2cb6-4bee-8415-c7a2b82c95ce",
+      "name": "Loop over queries",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        860,
+        520
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {},
+      "id": "ef8997ac-1c50-4021-a6fc-c518d4e543db",
+      "name": "Starts scraper workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        400,
+        860
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "3af24d4b-9bf9-4993-85f2-a0411f30d6b7",
+      "name": "Run workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        660,
+        520
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "32d0f39d-e881-48c4-964f-aa6d88cd0f8e",
+      "name": "Wait between executions",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        1300,
+        540
+      ],
+      "webhookId": "3da70f5c-20ab-4109-8447-11da24767ed1",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $workflow.id }}"
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "id": "3e83fc8f-9f80-48e6-b3e3-578e77e0dafe",
+      "name": "Execute scraper for query",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "position": [
+        1080,
+        540
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {},
+      "id": "687617c7-141e-415a-a05b-a6ccc324dd76",
+      "name": "Remove Duplicate URLs1",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "position": [
+        1280,
+        860
+      ],
+      "typeVersion": 1.1,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json.data\n\nconst regex = /https?:\\/\\/[^\\/]+/g\n\nconst urls = data.match(regex)\n\nreturn urls.map(url => ({json: {url: url}}))"
+      },
+      "id": "8c418bd2-d195-4b16-906f-62d652031e9e",
+      "name": "Scrape URLs from results1",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        840,
+        860
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "041797f2-2fe2-41dc-902a-d34050b9b304",
+              "operator": {
+                "type": "string",
+                "operation": "notRegex"
+              },
+              "leftValue": "={{ $json.url }}",
+              "rightValue": "=(google|gstatic|ggpht|schema\\.org|example\\.com|sentry-next\\.wixpress\\.com|imli\\.com|sentry\\.wixpress\\.com|ingest\\.sentry\\.io)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e7c83e2b-5b37-403c-929c-1c16349cdd0c",
+      "name": "Filter irrelevant URLs1",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        1060,
+        860
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "676f6def-db4b-4838-bba5-235d0b3c1129",
+      "name": "Request web page for URL1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1720,
+        940
+      ],
+      "typeVersion": 4.2,
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "2ce1cf64-a1ec-4270-84e3-08308b5929fe",
+      "name": "Loop over URLs1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        1500,
+        860
+      ],
+      "typeVersion": 3,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "055cc928-c926-406b-b96f-2316734a8b5b",
+      "name": "Loop over pages1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        1720,
+        710
+      ],
+      "typeVersion": 3,
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.google.com/maps/search/{{ $json.query }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": false
+        }
+      },
+      "id": "26bcb663-43d6-42c5-9223-aa2066b5f1c1",
+      "name": "Search Google Maps with query",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        620,
+        860
+      ],
+      "executeOnce": false,
+      "typeVersion": 4.2,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5239b249-0245-46c8-b86c-987e733eab54",
+              "leftValue": "={{ $json.emails }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "67a4fffb-03f2-46a6-bf52-c203e81126dd",
+              "leftValue": "={{ $json.phones }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1900,
+        480
+      ],
+      "id": "2b7e77ba-0217-42a6-a362-79a767bb856d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1GiQsqsS9PSMbCcliNwoJNyTtAZgGKxdM0haAWzPdKDU",
+          "mode": "list",
+          "cachedResultName": "Leads scrapping n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GiQsqsS9PSMbCcliNwoJNyTtAZgGKxdM0haAWzPdKDU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Full 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GiQsqsS9PSMbCcliNwoJNyTtAZgGKxdM0haAWzPdKDU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nombre": "={{ $json.businessName }}",
+            "Tipo": "={{ $json.businessType }}",
+            "Especialidad": "={{ $json.specialization }}",
+            "Descripción": "={{ $json.description }}",
+            "Correo": "={{ $json.emails }}",
+            "Teléfono": "={{ $json.phones }}",
+            "Dirección": "={{ $json.address }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo",
+              "displayName": "Tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Especialidad",
+              "displayName": "Especialidad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Descripción",
+              "displayName": "Descripción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Correo",
+              "displayName": "Correo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Dirección",
+              "displayName": "Dirección",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "12313fd7-2d50-4863-9f8a-3a94491f3d35",
+      "name": "Guardar negocio",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        2340,
+        480
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "lTPMzr1nqW723dxf",
+          "name": "Google Sheets Joana"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $json.data\nconst url = $json.url\n\n// Extraer emails\nconst emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(?!png|jpg|gif|jpeg)[a-zA-Z]{2,}/g\nconst emails = data.match(emailRegex) || []\n\n// Extraer nombre de la empresa\nlet businessName = ''\n// Buscar en meta tags\nconst titleMatch = data.match(/<title[^>]*>([^<]*)<\\/title>/i)\nif (titleMatch) {\n  businessName = titleMatch[1].replace(/ - Google Maps.*$/i, '').trim()\n}\n// Si no encontramos en title, buscar en h1\nif (!businessName) {\n  const h1Match = data.match(/<h1[^>]*>([^<]*)<\\/h1>/i)\n  if (h1Match) {\n    businessName = h1Match[1].trim()\n  }\n}\n\n// Extraer teléfono\nconst phoneRegex = /(?:\\+\\d{10,}|[96]\\d{7})/g\nconst phones = data.match(phoneRegex) || []\nconst cleanedPhones = phones.filter(phone => phone.length >= 9 && phone.length <= 15)\n\n// Extraer dirección\nlet address = ''\nconst addressPatterns = [\n  /(?:Calle|Avenida|Av\\.|C\\.|Plaza|Pl\\.|Paseo|Carrera|Cr\\.|Diagonal|Diag\\.)\\s+[^\\n<>]{10,80}/gi,\n  /\\d{1,5}\\s+[A-Za-z\\s]{3,30}\\s+(?:Street|St\\.|Avenue|Ave\\.|Road|Rd\\.|Boulevard|Blvd\\.|Drive|Dr\\.|Lane|Ln\\.|Court|Ct\\.|Place|Pl\\.)/gi,\n  /[A-Za-z\\s]{3,30}\\s+\\d{1,5}[^\\n<>]{0,50}/gi\n]\n\nfor (const pattern of addressPatterns) {\n  const matches = data.match(pattern)\n  if (matches && matches.length > 0) {\n    address = matches[0].replace(/<[^>]*>/g, '').trim()\n    break\n  }\n}\n\n// Extraer información de la empresa y especialización\nlet businessType = ''\nlet description = ''\n\n// Buscar en meta description\nconst metaDescMatch = data.match(/<meta[^>]*name=[\"']description[\"'][^>]*content=[\"']([^\"']*)[\"'][^>]*>/i)\nif (metaDescMatch) {\n  description = metaDescMatch[1].trim()\n}\n\n// Buscar palabras clave para categorizar el negocio\nconst businessKeywords = {\n  'Restaurante': ['restaurante', 'restaurant', 'comida', 'food', 'cocina', 'kitchen', 'gastronom', 'chef', 'menú', 'menu', 'tapas', 'pizzeria', 'hamburguesería', 'cervecería', 'marisquería', 'asador', 'parrilla'],\n  'Consulta Médica': ['médico', 'doctor', 'clínica', 'clinic', 'consulta', 'consultation', 'hospital', 'salud', 'health', 'medicina', 'medicine', 'pediatr', 'cardio', 'dermato', 'gineco', 'traumato', 'psicólogo', 'psicología'],\n  'Belleza y Estética': ['peluquería', 'hairdresser', 'beauty', 'belleza', 'estética', 'aesthetic', 'spa', 'masaje', 'massage', 'manicure', 'pedicure', 'depilación', 'facial', 'cosmética'],\n  'Servicios Profesionales': ['abogado', 'lawyer', 'notario', 'notary', 'consultor', 'consultant', 'asesor', 'advisor', 'contable', 'accountant', 'gestor', 'architect', 'arquitecto', 'ingeniero', 'engineer'],\n  'Comercio': ['tienda', 'shop', 'store', 'comercio', 'boutique', 'almacén', 'warehouse', 'venta', 'sale', 'retail', 'mayorista', 'wholesale'],\n  'Servicios de Hogar': ['fontanero', 'plumber', 'electricista', 'electrician', 'carpintero', 'carpenter', 'pintor', 'painter', 'limpieza', 'cleaning', 'jardinería', 'gardening', 'cerrajero', 'locksmith'],\n  'Fitness y Deporte': ['gimnasio', 'gym', 'fitness', 'deporte', 'sport', 'entrenador', 'trainer', 'yoga', 'pilates', 'crossfit', 'natación', 'swimming', 'tenis', 'tennis'],\n  'Educación': ['escuela', 'school', 'colegio', 'universidad', 'university', 'academia', 'academy', 'profesor', 'teacher', 'tutor', 'educación', 'education', 'formación', 'training'],\n  'Automoción': ['taller', 'garage', 'mecánico', 'mechanic', 'automóvil', 'car', 'auto', 'motor', 'neumático', 'tire', 'concesionario', 'dealer'],\n  'Tecnología': ['informática', 'computer', 'tecnología', 'technology', 'software', 'hardware', 'reparación', 'repair', 'desarrollo', 'development', 'diseño web', 'web design']\n}\n\n// Buscar el tipo de negocio\nconst fullText = (businessName + ' ' + description + ' ' + data.toLowerCase()).toLowerCase()\nfor (const [category, keywords] of Object.entries(businessKeywords)) {\n  if (keywords.some(keyword => fullText.includes(keyword.toLowerCase()))) {\n    businessType = category\n    break\n  }\n}\n\n// Extraer especialización más específica\nlet specialization = ''\nif (businessType === 'Restaurante') {\n  const foodTypes = ['italiana', 'italian', 'china', 'chinese', 'japonesa', 'japanese', 'mexicana', 'mexican', 'india', 'indian', 'mediterránea', 'mediterranean', 'vegetariana', 'vegetarian', 'vegana', 'vegan', 'mariscos', 'seafood', 'carnes', 'meat', 'pizzas', 'pizza', 'tapas', 'hamburguesas', 'burgers', 'sushi', 'paella', 'asado', 'barbacoa', 'bbq']\n  for (const type of foodTypes) {\n    if (fullText.includes(type)) {\n      specialization = type\n      break\n    }\n  }\n} else if (businessType === 'Consulta Médica') {\n  const medicalTypes = ['pediatría', 'pediatrics', 'cardiología', 'cardiology', 'dermatología', 'dermatology', 'ginecología', 'gynecology', 'traumatología', 'traumatology', 'psicología', 'psychology', 'oftalmología', 'ophthalmology', 'neurología', 'neurology', 'urología', 'urology', 'oncología', 'oncology', 'endocrinología', 'endocrinology']\n  for (const type of medicalTypes) {\n    if (fullText.includes(type)) {\n      specialization = type\n      break\n    }\n  }\n} else if (businessType === 'Belleza y Estética') {\n  const beautyTypes = ['corte', 'cut', 'color', 'tinte', 'extensiones', 'extensions', 'manicure', 'pedicure', 'depilación', 'waxing', 'facial', 'masaje', 'massage', 'lifting', 'botox', 'microblading', 'pestañas', 'lashes']\n  for (const type of beautyTypes) {\n    if (fullText.includes(type)) {\n      specialization = type\n      break\n    }\n  }\n}\n\nreturn {\n  json: {\n    url: url,\n    businessName: businessName,\n    businessType: businessType,\n    specialization: specialization,\n    description: description,\n    emails: emails,\n    phones: cleanedPhones,\n    address: address\n  }\n}"
+      },
+      "id": "89ff7a29-8848-41f4-9f5d-ac961b570393",
+      "name": "Obtener información negocio",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1960,
+        700
+      ],
+      "typeVersion": 2,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const data = item.json;\n\n  data.phones = Array.isArray(data.phones) && data.phones.length > 0 ? data.phones[0] : null;\n  data.emails = Array.isArray(data.emails) && data.emails.length > 0 ? data.emails[0] : null;\n\n  return { json: data };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        700
+      ],
+      "id": "cb491a82-67dd-42b1-b8d4-656777d91430",
+      "name": "Limpiar datos"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        480
+      ],
+      "id": "fed5b551-da1a-4df9-9e5c-125ebb8ed6b0",
+      "name": "Remove Duplicates"
+    }
+  ],
+  "connections": {
+    "Loop over queries": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Execute scraper for query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Starts scraper workflow": {
+      "main": [
+        [
+          {
+            "node": "Search Google Maps with query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run workflow": {
+      "main": [
+        [
+          {
+            "node": "Loop over queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait between executions": {
+      "main": [
+        [
+          {
+            "node": "Loop over queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute scraper for query": {
+      "main": [
+        [
+          {
+            "node": "Wait between executions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate URLs1": {
+      "main": [
+        [
+          {
+            "node": "Loop over URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape URLs from results1": {
+      "main": [
+        [
+          {
+            "node": "Filter irrelevant URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter irrelevant URLs1": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicate URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Request web page for URL1": {
+      "main": [
+        [
+          {
+            "node": "Loop over URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop over URLs1": {
+      "main": [
+        [
+          {
+            "node": "Loop over pages1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Request web page for URL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop over pages1": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Obtener información negocio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Google Maps with query": {
+      "main": [
+        [
+          {
+            "node": "Scrape URLs from results1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener información negocio": {
+      "main": [
+        [
+          {
+            "node": "Limpiar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpiar datos": {
+      "main": [
+        [
+          {
+            "node": "Loop over pages1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Guardar negocio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f461766a719206c7b34f30f0c5ffbfd243aa0529875ea6f0635cb8a8e3f5e369"
+  }
+}
