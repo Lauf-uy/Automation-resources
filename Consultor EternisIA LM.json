@@ -1,0 +1,1594 @@
+{
+  "name": "Consultor EternisIA LM",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "message",
+        "key": "={{ $('Edit Fields').item.json.Whatsapp_number }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        864,
+        784
+      ],
+      "id": "149a0c69-12a3-42a7-a088-cac26bfcf3ea",
+      "name": "Redis6",
+      "credentials": {
+        "redis": {
+          "id": "1rgCLY12xEe3H2FT",
+          "name": "Redis Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.Whatsapp_number }}",
+        "messageData": "={{ $json.mensaje }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        416,
+        784
+      ],
+      "id": "2a3a5f90-9051-4753-b95c-44f1cd3e75ee",
+      "name": "Redis7",
+      "credentials": {
+        "redis": {
+          "id": "1rgCLY12xEe3H2FT",
+          "name": "Redis Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        784
+      ],
+      "id": "f392d49b-776c-4266-87c6-5e3e2454b5c3",
+      "name": "Wait6",
+      "webhookId": "d0da0db9-6946-48cd-8490-e07cb01a5fdd"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8a313a41-eadc-4ada-bc2a-feff79845de9",
+              "leftValue": "={{ $json.message[0] }}",
+              "rightValue": "={{ $('Edit Fields').item.json.mensaje }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        784
+      ],
+      "id": "04bdab2f-8566-4b23-b124-49ca9612f7f4",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d5f82380-4858-4361-908e-98e45c98f092",
+              "name": "response",
+              "value": "={{ $('Redis6').item.json.message.slice().reverse() }}",
+              "type": "string"
+            },
+            {
+              "id": "b3db797c-6f2b-4232-8e0c-021bc8e299ca",
+              "name": "phone",
+              "value": "={{ $('Edit Fields').item.json.Whatsapp_number }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        784
+      ],
+      "id": "9037d3da-55b4-4293-bcd7-9f8ab27917c1",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.Whatsapp_number }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        1056
+      ],
+      "id": "bdd8d405-b12a-4dbf-858d-57e808101456",
+      "name": "Redis9",
+      "credentials": {
+        "redis": {
+          "id": "1rgCLY12xEe3H2FT",
+          "name": "Redis Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields2').item.json.phone }}",
+        "tableName": "=public.n8n_chat_historial_consultor_eternis",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        1616
+      ],
+      "id": "c1b5bfc9-3072-4b06-b8ca-34b3eb5e0fb5",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "xLKlm3HfFiDENrcq",
+          "name": "Postgres Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Recopilamos mensajes en (x) intervalo de tiempo",
+        "height": 440,
+        "width": 1804,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        704
+      ],
+      "typeVersion": 1,
+      "id": "4885a035-4b4d-4bb0-b1c0-5da5c4c96262",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## ¿Audio, texto o imagen?",
+        "height": 664,
+        "width": 2196,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "2a7065ad-44be-4fbf-ac11-0c94175b3979",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## 🧙‍♂️ El agente IA hace su magia",
+        "height": 680,
+        "width": 3204,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        1248
+      ],
+      "typeVersion": 1,
+      "id": "860615d5-6717-43ce-b7fe-a3429e79907e",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        992
+      ],
+      "id": "d0167151-0fe7-40e2-9554-5bf0d896ceec",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7fe51594-8d61-45b4-a123-ed0c66d6f5c5",
+              "name": "mensaje",
+              "value": "={{ $json.message_content }}",
+              "type": "string"
+            },
+            {
+              "id": "3e61bb2b-a508-48c2-b55c-5d4f9a404cfb",
+              "name": "Whatsapp_number",
+              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2640,
+        432
+      ],
+      "id": "7f7c01c1-a1b5-4fd2-85a8-7f6c87165a24",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"message_to_user\": \"Perfecto Alejandro, en unos minutos recibirás tu informe por email. Un abrazo.\",\n  \"action\": \"finish\",\n  \"filled_slots\": {\n    \"contacto.nombre\": \"Alejandro\",\n    \"empresa.nombre\": \"PaloSeco\",\n    \"empresa.actividad\": \"Agencia de marketing digital especializada en SEO\",\n    \"empresa.cargo\": \"Cofundador\",\n    \"empresa.tamano\": \"20 personas\",\n    \"stack.herramientas\": [\"Notion\", \"Gmail\", \"WhatsApp\", \"Mailchimp\"],\n    \"growth.canales\": [\"Web\", \"WhatsApp\", \"Referencias\"],\n    \"procesos.clave\": [\n      \"Onboarding de clientes\",\n      \"Extracción de datos de campañas de Meta\",\n      \"Facturación mensual\"\n    ],\n    \"prioridad.unica\": \"Automatizar la extracción de datos de Meta y volcarlos en una hoja de cálculo\",\n    \"metricas.volumen\": \"Más de 150 leads al mes\",\n    \"contacto.email\": \"alejandro@paloseco.com\"\n  },\n  \"next_question_id\": null,\n  \"notes\": \"La empresa PaloSeco es una agencia de marketing SEO de 20 personas; Alejandro es cofundador, usan Notion, Gmail, WhatsApp y Mailchimp. Sus procesos críticos son onboarding, extracción de datos y facturación. Priorizan automatizar la extracción de datos de Meta.\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        1616
+      ],
+      "id": "acdbb06e-e760-4e54-86fe-7b0f28835dbd",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1872,
+        1040
+      ],
+      "id": "fed13205-db04-4650-aac2-c314bed8f0f1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "consultor-eternisia",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        112,
+        384
+      ],
+      "id": "da873ca3-3d9e-43fa-a1f2-6ed531ead20a",
+      "name": "Webhook",
+      "webhookId": "ae106033-56e4-4495-a669-6207b23d221a"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "audio64",
+        "options": {
+          "fileName": "=file-{{ $now.format('yyyy-MM-dd:dd_HHMMSS') }}.ogg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        288
+      ],
+      "id": "12ae6696-1c65-4e8a-b387-36b36d68f9b9",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fc25c837-936f-44a3-bfe4-d3dd70eceb2a",
+              "leftValue": "={{ $('Webhook').item.json.body.phone }}",
+              "rightValue": "+34 644 41 56 37",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "2073e019-b532-4fac-a2d8-bb6f8d05c648",
+              "leftValue": "={{ $json.estado }}",
+              "rightValue": "sigue",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        384
+      ],
+      "id": "0bc2627a-bf76-4ea6-9d93-7b5d44712ab7",
+      "name": "If19"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "135da444-8b73-4671-abaf-22e1825ede87",
+              "name": "message_type",
+              "value": "={{ $('Webhook').item.json.body.data.message.conversation && 'Texto'||\n   $('Webhook').item.json.body.data.message.audioMessage && 'Audio'||\n   $('Webhook').item.json.body.data.message.imageMessage && 'Image'||\n   $('Webhook').item.json.body.data.message.stickerMessage && 'Sticker'}}",
+              "type": "string"
+            },
+            {
+              "id": "b10b61c5-c8fa-414a-93fe-c8c0fa35aa7a",
+              "name": "apikey",
+              "value": "={{ $('Webhook').item.json.body.apikey }}",
+              "type": "string"
+            },
+            {
+              "id": "7a9960cb-1f18-4c42-835d-4be20219affb",
+              "name": "instancia",
+              "value": "={{ $('Webhook').item.json.body.instance }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        288
+      ],
+      "id": "501cc653-9cab-47b2-a8f3-3eed6abee463",
+      "name": "Edit Fields13"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message_type }}",
+                    "rightValue": "Texto",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ce6e629b-5e57-4a0f-babb-730b85838424"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "077cd860-da61-4973-b37d-2c34d2cf9de9",
+                    "leftValue": "={{ $json.message_type }}",
+                    "rightValue": "Audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "97b51420-cf22-4718-8256-bd2bd0a3c6e6",
+                    "leftValue": "={{ $json.message_type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e46a4113-4b7f-4e4c-a44f-0047f86f6f13",
+                    "leftValue": "={{ $json.message_type }}",
+                    "rightValue": "sticker",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sticker"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1152,
+        240
+      ],
+      "id": "60f52032-46ee-4ad2-8cff-df917558ce57",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "910c9e55-ce6b-4af3-b1b4-6768d110765f",
+              "name": "message_id",
+              "value": "={{ $('Webhook').item.json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "099559f5-b30d-44df-a483-c0becb52a129",
+              "name": "message_content",
+              "value": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2048,
+        80
+      ],
+      "id": "e644a544-7781-4f15-9bca-c426c9042080",
+      "name": "Edit Fields15"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1824,
+        288
+      ],
+      "id": "efd87ffb-d174-4e58-9043-6f09eaa1c3ae",
+      "name": "OpenAI3",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "6maCuh64GF7XBbig",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6c0c61ff-4a2d-436c-ac64-35e63c0a7aa4",
+              "name": "audio64",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        272
+      ],
+      "id": "a2bb286d-9548-4de5-a076-ed2a50bbb667",
+      "name": "Edit Fields17"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "910c9e55-ce6b-4af3-b1b4-6768d110765f",
+              "name": "message_id",
+              "value": "={{ $('Webhook').item.json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "099559f5-b30d-44df-a483-c0becb52a129",
+              "name": "message_content",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2048,
+        288
+      ],
+      "id": "ee0bd43e-3be5-408f-b3c1-691f14bbdac8",
+      "name": "Edit Fields18"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        1616
+      ],
+      "id": "ce9d5e91-f275-4297-a1c8-e68356d023e4",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "LeadMagnet",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "messageText": "={{ $json.output.message_to_user }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        976,
+        1456
+      ],
+      "id": "17974fe5-59ad-411f-9cee-eeccd2cfab52",
+      "name": "Enviar texto1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "uO1hdizncSjZfzwJ",
+          "name": "Evolution account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE public.n8n_chat_historial_consultor_eternis\nSET \"STOP\" = TRUE\nWHERE session_id = '{{ $('Webhook').first().json.body.data.key.remoteJid }}';\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1216,
+        1456
+      ],
+      "id": "34746eeb-da91-4163-97ae-04751f22d7fa",
+      "name": "MARCAR TRUE",
+      "credentials": {
+        "postgres": {
+          "id": "xLKlm3HfFiDENrcq",
+          "name": "Postgres Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM n8n_chat_historial_consultor_eternis\nWHERE session_id = '{{ $('Webhook').first().json.body.data.key.remoteJid }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1440,
+        1456
+      ],
+      "id": "0d7a71c4-6d80-40c0-9da0-46ee1cf77900",
+      "name": "OBTENER DATOS",
+      "credentials": {
+        "postgres": {
+          "id": "xLKlm3HfFiDENrcq",
+          "name": "Postgres Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH row AS (\n  SELECT \n    session_id,\n    CASE WHEN \"STOP\" IS TRUE THEN 'stop' ELSE 'sigue' END AS estado\n  FROM public.n8n_chat_historial_consultor_eternis\n  WHERE session_id = '{{ $json.body.data.key.remoteJid }}'\n  LIMIT 1\n)\nSELECT session_id, estado FROM row\nUNION ALL\nSELECT \n  '{{ $json.body.data.key.remoteJid }}' AS session_id,\n  'sigue' AS estado\nWHERE NOT EXISTS (SELECT 1 FROM row);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        432,
+        384
+      ],
+      "id": "ed9e8576-0fbd-4e37-981f-c706097ba482",
+      "name": "Execute a SQL query",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "xLKlm3HfFiDENrcq",
+          "name": "Postgres Server"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4.1",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        1600
+      ],
+      "id": "84cffa0c-c4fa-4cdb-943f-b2549afd50ef",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "PhJLZjmFwxaQu2Zs",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "message.content"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        1456
+      ],
+      "id": "949378e5-353f-4477-91bf-50c67a287b9a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Conversación:{{ $json.content }}\n\nJSON: {{ $('AI Agent').item.json.output.toJsonString()}}"
+            },
+            {
+              "content": "=Eres un consultor experto de EternisIA. Has mantenido una conversación con un cliente potencial y dispones de:\n- La transcripción completa (una o varias, pueden venir de hilos distintos).\n- Un JSON con datos estructurados (empresa, tamaño, sector si existe, herramientas, procesos repetitivos, prioridad, email, etc.).\n\nOBJETIVO:\nGenerar un **informe consultivo en HTML5** (documento completo) claro y no técnico, que priorice Quick Wins (2–3 semanas), proponga una siguiente fase (6–12 semanas), estime impacto en horas y euros (con supuestos explícitos) y termine con un cierre inspirador.  \n⚠️ Importante: **NO incluyas ningún Call to Action ni enlaces externos**; el CTA lo añadiremos aparte en Gmail.\n\nPRE-PROCESADO DE DATOS:\n1) Fusiona hilos de conversación en una única línea temporal; si hay duplicados o contradicciones, conserva la última mención.  \n2) Normaliza campos del JSON:  \n   - `empresa.tamano` a número (si llega “11 empleados”, deja “11”).  \n   - `stack.herramientas` como lista única (sin duplicados ni inconsistencias).  \n   - `procesos.clave` como array de objetos `{ descripcion, impacto_estimado }`.  \n3) Extrae citas literales (1–2) representativas del dolor del cliente.  \n4) Completa huecos con supuestos explícitos cuando falten datos clave (ej: nº de clientes, minutos por tarea, coste/hora). Marca estos supuestos en el informe.  \n5) Prioriza oportunidades con matriz ICE (Impacto, Confianza, Esfuerzo inverso).  \n\nESTILO Y LENGUAJE:\n- Profesional y cercano, sin jerga técnica (no menciones APIs, webhooks, etc.).  \n- Cada recomendación debe seguir: **problema actual → propuesta → beneficio**.  \n- Personaliza con sector, tamaño, herramientas y frases literales del cliente.  \n- Evita soluciones genéricas.  \n\nSALIDA (HTML5 completo; no uses markdown ni texto fuera del HTML):\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>Propuesta de Automatización · EternisIA</title>\n  <style>\n    body{\n      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,\"Helvetica Neue\",Arial,sans-serif;\n      line-height:1.6;\n      color:#0D1B2A;\n      margin:0;\n      padding:24px;\n      background:#E5E5E5;\n    }\n    h1{font-size:22px;margin:24px 0 8px;color:#0D1B2A}\n    h2{font-size:18px;margin:16px 0 8px;color:#0D1B2A}\n    p,li{font-size:15px;color:#0D1B2A}\n    section{\n      background:#fff;\n      border:1px solid #E5E5E5;\n      border-radius:12px;\n      padding:16px;\n      margin:12px 0;\n    }\n    .pill{\n      display:inline-block;\n      background:#E5E5E5;\n      color:#0D1B2A;\n      border-radius:999px;\n      padding:2px 10px;\n      font-size:12px;\n      margin-right:6px;\n    }\n    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}\n    .muted{color:#0D1B2A;opacity:0.7}\n    table{\n      width:100%;\n      border-collapse:collapse;\n      margin:8px 0;\n    }\n    th,td{\n      border:1px solid #E5E5E5;\n      padding:8px;\n      text-align:left;\n      font-size:14px;\n      color:#0D1B2A;\n    }\n    th{background:#E5E5E5;color:#0D1B2A}\n    .small{font-size:13px;color:#0D1B2A}\n  </style>\n</head>\n<body>\n  <section id=\"resumen\">\n    <h1>Resumen</h1>\n    <p><strong>Empresa:</strong> <!-- nombre y actividad --> · <strong>Tamaño:</strong> <!-- nº personas --> · <strong>Sector:</strong> <!-- sector o “No especificado” -->.</p>\n    <p><strong>Herramientas clave:</strong> <!-- lista normalizada -->.</p>\n    <p><strong>Procesos repetitivos detectados:</strong> <!-- lista breve -->.</p>\n    <p class=\"muted\">Voz del cliente: “<!-- cita representativa -->”.</p>\n    <div>\n      <span class=\"pill\">Personalizado</span>\n      <span class=\"pill\">Accionable</span>\n      <span class=\"pill\">Sin tecnicismos</span>\n    </div>\n  </section>\n\n  <section id=\"oportunidades\">\n    <h1>Oportunidades priorizadas (Quick Wins · 2–3 semanas)</h1>\n    <ol>\n      <li>\n        <strong><!-- Quick Win #1 --></strong><br>\n        <em>Problema:</em> <!-- problema en palabras del cliente --><br>\n        <em>Propuesta:</em> <!-- propuesta en lenguaje simple --><br>\n        <em>Beneficio:</em> <!-- ahorro/errores/experiencia --><br>\n        <em>Estimación ahorro:</em> <!-- rango horas/semana --> h/semana\n        <div class=\"small\">ICE → Impacto: <!-- 1-5 --> · Confianza: <!-- 1-5 --> · Esfuerzo: <!-- 1-5 --> · <strong>Puntuación:</strong> <!-- total --></div>\n      </li>\n      <li><!-- Quick Win #2 --></li>\n      <li><!-- Quick Win #3 (opcional) --></li>\n    </ol>\n\n    <h2>Próxima fase (6–12 semanas)</h2>\n    <ul>\n      <li><strong><!-- Proyecto estratégico #1 --></strong> — <!-- 1–2 frases --></li>\n      <li><strong><!-- Proyecto estratégico #2 --></strong> — <!-- 1–2 frases --></li>\n      <li><strong><!-- Proyecto estratégico #3 (opcional) --></strong> — <!-- 1–2 frases --></li>\n    </ul>\n  </section>\n\n  <section id=\"antes_despues\">\n    <h1>Antes → Después</h1>\n    <div class=\"grid\">\n      <div>\n        <h2>Antes</h2>\n        <ul>\n          <li><!-- fricción #1 --></li>\n          <li><!-- fricción #2 --></li>\n          <li><!-- fricción #3 --></li>\n        </ul>\n      </div>\n      <div>\n        <h2>Después</h2>\n        <ul>\n          <li><!-- mejora #1 --></li>\n          <li><!-- mejora #2 --></li>\n          <li><!-- mejora #3 --></li>\n        </ul>\n      </div>\n    </div>\n    <p><em>Imagina que</em> <!-- visualización del día a día tras la automatización -->.</p>\n  </section>\n\n  <section id=\"impacto\">\n    <h1>Impacto estimado</h1>\n    <table>\n      <thead>\n        <tr><th>Escenario</th><th>Horas ahorradas/semana</th><th>Supuesto clave</th><th>Impacto económico*</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Conservador</td><td><!-- h/sem --></td><td><!-- supuesto --></td><td><!-- € mensuales --></td></tr>\n        <tr><td>Moderado</td><td><!-- h/sem --></td><td><!-- supuesto --></td><td><!-- € mensuales --></td></tr>\n        <tr><td>Ambicioso</td><td><!-- h/sem --></td><td><!-- supuesto --></td><td><!-- € mensuales --></td></tr>\n      </tbody>\n    </table>\n    <p class=\"small muted\">*Cálculo: horas/semana × 4,3 semanas/mes × coste/hora estimado (ajustable).</p>\n    <ul>\n      <li><strong>Riesgos que disminuirían:</strong> <!-- errores/olvidos --></li>\n      <li><strong>Beneficios visibles para el cliente final:</strong> <!-- tiempos de respuesta, consistencia --></li>\n    </ul>\n  </section>\n\n  <section id=\"kpis\">\n    <h1>KPIs sugeridos</h1>\n    <table>\n      <thead>\n        <tr><th>KPI</th><th>Línea base</th><th>Objetivo 30d</th><th>60d</th><th>90d</th><th>Cómo se mide</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Tasa de entrega de reportes a tiempo</td><td><!-- % actual --></td><td><!-- % --></td><td><!-- % --></td><td><!-- % --></td><td><!-- método --></td></tr>\n        <tr><td>Reducción de tareas manuales repetitivas</td><td><!-- % --></td><td><!-- % --></td><td><!-- % --></td><td><!-- % --></td><td><!-- conteo semanal --></td></tr>\n        <tr><td>Tiempo medio de cierre de reporte</td><td><!-- hh:mm --></td><td><!-- hh:mm --></td><td><!-- hh:mm --></td><td><!-- hh:mm --></td><td><!-- timestamp inicio/fin --></td></tr>\n      </tbody>\n    </table>\n  </section>\n\n  <section id=\"adopcion\">\n    <h1>Plan de adopción</h1>\n    <ol>\n      <li><strong>Piloto (2–3 semanas):</strong> alcance acotado, casos reales, retro semanal.</li>\n      <li><strong>Formación:</strong> sesión 60–90 min y guía rápida de 1 página.</li>\n      <li><strong>Responsables:</strong> quién valida contenido y quién monitoriza KPIs.</li>\n      <li><strong>Fallback:</strong> qué hacer si algo falla y cómo operar manualmente.</li>\n    </ol>\n  </section>\n\n  <section id=\"micro_entregables\">\n    <h1>Ejemplos prácticos</h1>\n    <h2>Mensajes listos para usar</h2>\n    <ul>\n      <li><strong>WhatsApp recordatorio:</strong> <!-- texto breve y humano --></li>\n      <li><strong>Email confirmación:</strong> <!-- texto breve --></li>\n    </ul>\n    <h2>Checklist para empezar mañana</h2>\n    <ul>\n      <li>Definir Quick Win prioritario y fecha de entrega.</li>\n      <li>Elegir responsables y horario de revisión.</li>\n      <li>Redactar 2–3 mensajes tipo (recordatorio/confirmación).</li>\n      <li>Fijar KPI principal y línea base.</li>\n      <li>Calendario de piloto (2–3 semanas) y fecha de retro.</li>\n    </ul>\n  </section>\n\n  <section id=\"preguntas_abiertas\">\n    <h1>Preguntas abiertas</h1>\n    <ul>\n      <li><!-- duda #1 necesaria para afinar estimaciones --></li>\n      <li><!-- duda #2 --></li>\n    </ul>\n  </section>\n\n  <section id=\"siguientes_pasos\">\n    <h1>Siguientes pasos</h1>\n    <ol>\n      <li>Reunión de 20 minutos para revisar el Quick Win #1 y cerrar supuestos.</li>\n      <li>Puesta en marcha del Quick Win prioritario.</li>\n    </ol>\n    <p>Empezar es sencillo y estaréis acompañados por EternisIA para conseguir impacto desde el primer mes.</p>\n  </section>\n</body>\n</html>\n\n\nREGLA CRÍTICA:\nDevuelve EXCLUSIVAMENTE el documento HTML5 completo descrito arriba. No uses markdown ni agregues texto fuera de <html>…</html>.  \nNo incluyas ningún botón ni enlace de Call to Action en el cierre.\n",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1888,
+        1456
+      ],
+      "id": "cd861c01-fca4-404e-8a65-b86c7d666d9a",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "6maCuh64GF7XBbig",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('AI Agent').first().json.output.filled_slots['contacto.email'] }}",
+        "subject": "=✅ Tu Ruta para Automatizar {{ $('AI Agent').item.json.output.filled_slots['empresa.nombre'] }} {{ $('AI Agent').item.json.output.filled_slots['empresa.actividad'] }}",
+        "message": "=<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"x-apple-disable-message-reformatting\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Propuesta de Automatización · EternisIA</title>\n  <meta name=\"color-scheme\" content=\"light only\">\n  <style>\n    /* Reset mínimo y estilos compatibles con Gmail/Outlook */\n    body, table, td { margin:0; padding:0; }\n    img { border:0; outline:none; text-decoration:none; display:block; }\n    table { border-collapse:collapse; }\n    /* Tipografía y colores base */\n    .bodycopy { font-family: Arial, Helvetica, sans-serif !important; font-size:14px !important; line-height:1.6 !important; color:#333333 !important; }\n    .h1 { font-family: Arial, Helvetica, sans-serif !important; color:#0D1B2A !important; font-size:22px !important; line-height:1.3 !important; margin:0 !important; }\n    .h2 { font-family: Arial, Helvetica, sans-serif !important; color:#0D1B2A !important; font-size:20px !important; line-height:1.4 !important; margin:16px 0 8px !important; }\n    .chip { display:inline-block; background:#0D1B2A; color:#FFFFFF; font-family:Arial, Helvetica, sans-serif !important; font-size:12px !important; font-weight:bold; padding:6px 10px; border-radius:999px; }\n    .chip-alt { display:inline-block; background:#E6EAF0; color:#0D1B2A; font-family:Arial, Helvetica, sans-serif !important; font-size:12px !important; font-weight:bold; padding:6px 10px; border-radius:999px; }\n    /* Bloques */\n    .card { background:#FFFFFF; border-radius:16px; overflow:hidden; box-shadow:0 8px 28px rgba(13,27,42,0.18); }\n    /* Degradado actualizado: azul claro a azul oscuro */\n    .header-grad { background:linear-gradient(90deg,#1E3A5F,#0D1B2A); padding:28px; }\n    .section { background:#FFFFFF; border:1px solid #E6EAF0; border-left:6px solid #1E3A5F; border-radius:12px; padding:16px; margin-top:10px; }\n    .section-alt { background:#F5F6F8; border:1px solid #E6EAF0; border-left:6px solid #0D1B2A; border-radius:12px; padding:16px; margin-top:10px; }\n    .cta-btn { background:#0D1B2A; color:#FFFFFF !important; text-decoration:none; font-weight:bold; font-family:Arial, Helvetica, sans-serif; font-size:14px; padding:12px 18px; display:inline-block; border-radius:10px; }\n    /* Listas */\n    ol, ul { margin:10px 0 0 18px !important; padding:0 !important; }\n    ol li, ul li { margin:10px 0 !important; }\n    /* Preheader oculto */\n    .preheader { display:none !important; visibility:hidden; opacity:0; color:transparent; height:0; width:0; overflow:hidden; mso-hide:all; }\n    /* Correcciones Outlook */\n    .fullwidth { width:100% !important; }\n  </style>\n</head>\n<body style=\"margin:0; padding:0; background:#F5F6F8;\">\n  <div class=\"preheader\">Diagnóstico express y oportunidades priorizadas para ganar horas cada semana.</div>\n\n  <center style=\"width:100%; background:#F5F6F8;\">\n    <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"max-width:820px; margin:0 auto;\">\n      <tr>\n        <td style=\"padding:24px 16px;\">\n          <!-- Tarjeta principal -->\n          <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" class=\"card\">\n            <!-- Header -->\n            <tr>\n              <td class=\"header-grad\">\n                <h1 class=\"h1\" style=\"color:#FFFFFF !important;\">Propuesta de Automatización personalizada</h1>\n                <p class=\"bodycopy\" style=\"color:#DDE3EA !important; margin:8px 0 0 0;\">Diagnóstico express + oportunidades priorizadas</p>\n              </td>\n            </tr>\n\n            <!-- Chips guía -->\n            <tr>\n              <td style=\"padding:18px 28px 0 28px;\">\n                <span class=\"chip\">Resumen del negocio</span>\n                <span class=\"chip-alt\" style=\"margin-left:6px;\">Oportunidades de automatización</span>\n              </td>\n            </tr>\n\n            <!-- CONTENIDO DEL MODELO -->\n            <tr>\n              <td style=\"padding:12px 28px 8px 28px;\">\n                <div class=\"bodycopy\">\n                  {{ $('Message a model').item.json.message.content }}\n                </div>\n              </td>\n            </tr>\n\n            <!-- CTA -->\n            <tr>\n              <td style=\"padding:4px 28px 24px 28px;\">\n                <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" class=\"section\">\n                  <tr>\n                    <td>\n                      <p class=\"bodycopy\" style=\"margin:0 0 12px 0; color:#0D1B2A; font-weight:bold;\">¿Activamos el Quick Win #1 esta semana?</p>\n                      <a href=\"https://calendar.eternisia.com/widget/bookings/eternis-ia-consultoria-estrategica\" target=\"_blank\" class=\"cta-btn\">Sí, vamos a por ello 💪🏻</a>\n                    </td>\n                  </tr>\n                </table>\n              </td>\n            </tr>\n\n          </table>\n\n          <!-- Pie -->\n          <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" style=\"margin-top:16px;\">\n            <tr>\n              <td align=\"center\" style=\"padding:8px 0;\">\n                <p class=\"bodycopy\" style=\"font-size:12px !important; color:#0D1B2A !important; margin:0;\">© 2025 EternisIA · Propuesta de Automatización</p>\n              </td>\n            </tr>\n          </table>\n\n        </td>\n      </tr>\n    </table>\n  </center>\n</body>\n</html>\n",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "EternisIA"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2656,
+        1456
+      ],
+      "id": "653b9f53-bf82-4e9d-b4a3-754fd778e9b9",
+      "name": "Send a message",
+      "webhookId": "6b11f04a-5f35-4ac0-8d33-0ea4e21dbc99",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HBNSPpvEdHMOZipZ",
+          "name": "Gmail info@eternisia.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a8924a97-87fc-40a5-8e27-233f1eb5854c",
+              "leftValue": "={{ $json.output.action }}",
+              "rightValue": "finish",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        1504
+      ],
+      "id": "e8b0f476-9e8b-42c3-be7c-cd02ebc8febc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -16,
+        1632
+      ],
+      "id": "df8f3f1e-2404-456e-bfd1-b3ef615b207a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "6maCuh64GF7XBbig",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=mensaje_del_cliente: {{ $('Merge').item.json.response }}\ndia actual: {{ $now }}\ndia de la semana: {{ $now.format('cccc') }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=Eres **LucIA**, el agente conversacional de EternisIA que entrevista a clientes potenciales por WhatsApp.\nTu misión es descubrir cómo funciona su empresa, qué herramientas usan y dónde tienen tareas repetitivas\nque podrían automatizarse. Lo haces de forma natural, cercana y eficiente.\nAceptas respuestas por texto o notas de voz transcritas. En las preguntas que requieren más detalle,\nsiempre anima de forma natural a que el usuario use una nota de voz para dar más contexto.\n\n## Reglas de conversación\n- Preséntate siempre al inicio como:  \n  \"Hola 👋, soy LucIA de EternisIA, encantada de saludarte.\"  \n  y en ese mismo mensaje lanza la primera pregunta (“¿Cuál es tu nombre completo?”).  \n- Haz SOLO una pregunta a la vez, en tono humano y cercano.  \n- Cuando la pregunta sea más de desarrollo, anima a responder por nota de voz:  \n  Ej: “Si quieres, mándame una nota de voz con todos los detalles para que podamos darte la mejor propuesta.”  \n- Si la respuesta es ambigua o demasiado breve, pide un ejemplo o más detalle de forma amable.  \n- Resume brevemente lo que ya sabes cada 2–3 preguntas (“hasta ahora tengo…”).  \n- La pregunta de email SIEMPRE va la última, cuando ya se generó suficiente confianza.  \n- Al recibir el email: guarda el dato como esté (no importa si parece válido o no).  \n- Tras obtener el email, no intentes prolongar la conversación. Simplemente confirma que recibirá su informe en unos minutos y despídete con la frase:  \n  **“Un abrazo”**.  \n\n## Flujo de preguntas\n1. ¿Cuál es tu nombre?  \n2. ¿Cómo se llama tu empresa y a qué os dedicáis?  \n3. ¿Qué cargo ocupas dentro de la empresa?  \n4. ¿Cuántas personas sois aproximadamente?  \n5. ¿Qué herramientas usáis en el día a día? (CRM, WhatsApp, Excel/Sheets, ERP, email marketing,teléfono, etc.)  \n6. ¿Por dónde os llegan más clientes o trabajo? *(opcional)*  \n7. ¿En qué tareas o procesos se os va más tiempo cada semana? Cuéntame todos los que quieras, no solo uno. *(invita a nota de voz con detalle)*  \n8. Si mañana pudieras resolver solo un problema con automatización, ¿cuál elegirías y por qué? *(invita a nota de voz)*  \n9. Aproximadamente, ¿con cuántos clientes/leads/tickets trabajáis al mes? *(opcional)*  \n10. Para enviarte el informe, ¿qué email prefieres?  \n\n## Formato de salida\nDevuelve SIEMPRE un JSON con esta estructura (sin texto fuera del JSON):\n\n{\n  \"message_to_user\": \"Texto natural y breve (máx. 2 frases) que enviarás por WhatsApp\",\n  \"action\": \"ask\" | \"reprompt\" | \"confirm\" | \"finish\",\n  \"filled_slots\": {\n    \"contacto.nombre_completo\": \"...\",\n    \"empresa.nombre\": \"...\",\n    \"empresa.actividad\": \"...\",\n    \"empresa.cargo\": \"...\",\n    \"empresa.tamano\": \"...\",\n    \"stack.herramientas\": [\"...\", \"...\"],\n    \"growth.canales\": [\"...\"],\n    \"procesos.clave\": [\"...\", \"...\"],\n    \"prioridad.unica\": \"...\",\n    \"metricas.volumen\": \"...\",\n    \"contacto.email\": \"...\"\n  },\n  \"next_question_id\": \"id_de_la_pregunta_siguiente_o_null\",\n  \"notes\": \"Resumen breve de lo entendido hasta ahora (1 frase) cada 2–3 preguntas\"\n}\n\n## Lógica de control\n- \"ask\": lanza la siguiente pregunta pendiente (usa next_question_id).  \n- \"reprompt\": pide aclaración o ejemplo concreto de la MISMA pregunta.  \n- \"confirm\": confirma información sensible si es necesario antes de avanzar.  \n- \"finish\": cuando todas las preguntas obligatorias estén cubiertas. El último mensaje debe ser:  \n  “Perfecto, en unos minutos recibirás tu informe por email. Un abrazo.”  "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        1392
+      ],
+      "id": "3e8bd7f9-4e01-4a1c-ae2b-86e0fe4501df",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts/upsert",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "highLevelOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Version",
+              "value": "2021-07-28"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "locationId",
+              "value": "qB9QPPTPLEmnIEZx7nvn"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('AI Agent').first().json.output.filled_slots['contacto.email'] }}"
+            },
+            {
+              "name": "companyName",
+              "value": "={{ $('AI Agent').first().json.output.filled_slots['empresa.nombre'] }}"
+            },
+            {
+              "name": "phone",
+              "value": "=+{{ $('Webhook').first().json.body.data.key.remoteJid.replaceAll('@s.whatsapp.net',\"\") }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $('AI Agent').first().json.output.filled_slots['contacto.nombre'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2240,
+        1456
+      ],
+      "id": "dda60169-04c9-4199-b4b8-7e6a473f09c1",
+      "name": "HTTP Request",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "nG3zhxYefE5tnYng",
+          "name": "HighLevel EternisIA"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://services.leadconnectorhq.com/contacts/{{ $json.contact.id }}/tags",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "highLevelOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Version",
+              "value": "2021-07-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"tags\": [\n    \"bot_consultor\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2448,
+        1456
+      ],
+      "id": "6440f4cf-3629-4ff8-9cce-6d416b7ecf71",
+      "name": "HTTP Request1",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "nG3zhxYefE5tnYng",
+          "name": "HighLevel EternisIA"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "LeadMagnet",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "messageText": "={{ $json.output.message_to_user }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        992,
+        1648
+      ],
+      "id": "a2b70dcd-66fa-4b51-874a-8c4a1554dedb",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "uO1hdizncSjZfzwJ",
+          "name": "Evolution account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "LeadMagnet",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "messageText": "=Te acabo de enviar el informe por email! Espero que te sirva 😊. Te adelanto que se pueden automatizar bastantes cositas. Quedo a la espera de tu respuesta 🙌🏻\"",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2848,
+        1456
+      ],
+      "id": "9d110ed5-fbd1-42fe-909a-fef5ae987811",
+      "name": "Enviar texto2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "uO1hdizncSjZfzwJ",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "LeadMagnet",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "messageText": "Enviame un audio o texto por favor 😊",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        448
+      ],
+      "id": "5dd3ef4a-dc3c-4914-99d7-07a4624e5bcf",
+      "name": "Enviar texto3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "uO1hdizncSjZfzwJ",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE public.n8n_chat_historial_consultor_eternis\nSET \"STOP\" = FALSE\nWHERE session_id = '34629211434@s.whatsapp.net';\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1376,
+        1728
+      ],
+      "id": "5301f817-34fe-404a-9798-71c35db58050",
+      "name": "MARCAR FALSE",
+      "credentials": {
+        "postgres": {
+          "id": "xLKlm3HfFiDENrcq",
+          "name": "Postgres Server"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.eternisia.com",
+            "user-agent": "axios/1.10.0",
+            "content-length": "634",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.eternisia.com",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "0cfee56c2d3f",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "LeadMagnet",
+            "data": {
+              "key": {
+                "remoteJid": "34629211434@s.whatsapp.net",
+                "fromMe": true,
+                "id": "A537B086E835E226E6B428EE782D68E2"
+              },
+              "pushName": "Eternisia",
+              "status": "SERVER_ACK",
+              "message": {
+                "conversation": "Espejolopezjose@gmail.com"
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1759924623,
+              "instanceId": "e2d60ec1-6cd3-42c8-a89f-f5a485a80e6c",
+              "source": "android"
+            },
+            "destination": "https://n8n.eternisia.com/webhook/consultor-eternisia",
+            "date_time": "2025-10-08T13:57:03.484Z",
+            "sender": "34623731385@s.whatsapp.net",
+            "server_url": "https://evolution.eternisia.com",
+            "apikey": "521E55F0E3B5-4E5F-B157-461599F3C0FA"
+          },
+          "webhookUrl": "https://n8n.eternisia.com/webhook/consultor-eternisia",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Redis6": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis7": {
+      "main": [
+        [
+          {
+            "node": "Wait6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait6": {
+      "main": [
+        [
+          {
+            "node": "Redis6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Redis9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis9": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Redis7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If19": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields13": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields15",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields17",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields15": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields17": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields18": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto1": {
+      "main": [
+        [
+          {
+            "node": "MARCAR TRUE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MARCAR TRUE": {
+      "main": [
+        [
+          {
+            "node": "OBTENER DATOS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OBTENER DATOS": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "If19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "13ac8a18-faf5-4276-a909-6068486f0fd0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2ac49aba93e08f2f88ad135eba13a82447778c44064f81b6f1e8aafed6857d6"
+  },
+  "id": "pIazPWtcKCsXWtp4",
+  "tags": [
+    {
+      "createdAt": "2025-09-23T22:43:35.319Z",
+      "updatedAt": "2025-09-23T22:43:35.319Z",
+      "id": "uHLV0lFPgFQ1o0yz",
+      "name": "LeadMagnet"
+    },
+    {
+      "createdAt": "2025-09-23T22:42:40.328Z",
+      "updatedAt": "2025-09-23T22:42:40.328Z",
+      "id": "vxIijfcfiQZPh8Qh",
+      "name": "EternisIA"
+    }
+  ]
+}
