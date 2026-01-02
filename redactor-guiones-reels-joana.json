@@ -1,0 +1,654 @@
+{
+  "name": "Redactor guiones reels",
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"noticia_1\": {\n    \"titulo\": \"IA revolucionaria permite diagnosticar cáncer en tiempo récord\",\n    \"fecha\": \"2025-07-25\",\n    \"fuente\": \"Salud Digital News\",\n    \"url\": \"https://www.saluddigitalnews.com/ia-diagnostico-cancer\",\n    \"contenido_completo\": \"En los últimos días se ha dado a conocer una herramienta de inteligencia artificial capaz de analizar imágenes médicas y detectar indicios tempranos de cáncer con una precisión del 98 %. La investigación, liderada por un consorcio internacional, utilizó miles de escáneres reales y datos hospitalarios para entrenar el modelo. Lo extraordinario es que el sistema obtiene resultados en tan solo minutos, frente a las horas o días que pueden tardar los métodos tradicionales. Esto no solo representa un avance en tecnología médica, sino que también tiene un impacto potencial enorme en la reducción de mortalidad y en la eficiencia de los sistemas sanitarios. La herramienta ya está siendo probada en ensayos clínicos en hospitales de varios países, y se espera que en el corto plazo se solicite su aprobación regulatoria por parte de autoridades como la FDA y la EMA. Además, varios hospitales han anunciado su interés en adoptar el sistema, lo cual podría reducir costos de diagnósticos y agilizar tratamientos. Críticos señalan también desafíos éticos: el sesgo de datos en IA médica, privacidad de pacientes y responsabilidad legal en caso de error. En consecuencia, se han convocado foros regulatorios y debates académicos sobre políticas para garantizar su uso seguro y equitativo...\"\n  },\n  \"noticia_2\": {\n    \"titulo\": \"Vídeo viral demuestra cómo una IA genera arte en tiempo real\",\n    \"fecha\": \"2025-07-24\",\n    \"fuente\": \"Redes Creativas\",\n    \"url\": \"https://www.redescreativas.com/ia-arte-viral\",\n    \"contenido_completo\": \"Un vídeo publicado hace tres días se ha vuelto viral en redes sociales al mostrar una inteligencia artificial generativa creando obras de arte en tiempo real mientras una audiencia interactúa con ella. La iniciativa, desarrollada por un colectivo de artistas digitales, permite al usuario escribir textos breves, y la IA los transforma en imágenes elaboradas en segundos. Más de 10 millones de visualizaciones en 48 horas y decenas de miles de comentarios han convertido este experimento en tema de conversación tanto en comunidades artísticas como en medios tecnológicos. La relevancia de esta noticia radica en el potencial disruptivo para el mundo del arte y el entretenimiento: democratiza el acceso a la creación visual y cuestiona la autoría tradicional. También ha generado debates sobre derechos de propiedad intelectual: ¿quién posee el arte generado por IA? Plataformas de venta de arte digital ya están evaluando integrar esta tecnología, mientras que galerías físicas exploran exposiciones interactivas. Se anticipa que esta tendencia pueda provocar una ola de nuevas herramientas de creación asistida por IA, así como nuevas regulaciones sobre licencias, derechos y monetización de obras generadas algorítmicamente...\"\n  },\n  \"noticia_3\": {\n    \"titulo\": \"Lanzamiento de herramienta empresarial para automatizar atención al cliente con IA\",\n    \"fecha\": \"2025-07-22\",\n    \"fuente\": \"Tech Empresarial\",\n    \"url\": \"https://www.techempresarial.com/atencion-cliente-ia\",\n    \"contenido_completo\": \"Una startup tecnológica ha presentado una solución basada en inteligencia artificial que permite automatizar el servicio de atención al cliente mediante chatbots avanzados capaces de entender lenguaje natural complejo y emociones. Gracias a la integración con sistemas CRM, la herramienta puede resolver consultas frecuentes, escalar casos difíciles a agentes humanos y generar informes de satisfacción. El anuncio incluye pruebas piloto con varias empresas del sector retail y banca, donde se ha reportado una reducción del 60 % en tiempos de respuesta y una mejora del 25 % en satisfacción del cliente. Esto es relevante porque muestra cómo las empresas pueden optimizar costos operativos sin sacrificar experiencia del cliente. Tiene potencial para transformar industrias enteras, especialmente pymes que buscan modernizar su atención. Desde el punto de vista ético, surgen cuestionamientos sobre la transparencia: los clientes deben saber si están hablando con una IA, y sobre el impacto laboral en puestos de agentes tradicionales. Reguladores ya analizan si exigir etiquetas obligatorias para interfaces automatizadas y cómo proteger datos sensibles en dichas interacciones...\"\n  },\n  \"noticia_4\": {\n    \"titulo\": \"Nueva regulación europea sobre uso de IA en finanzas entrará en vigor\",\n    \"fecha\": \"2025-07-23\",\n    \"fuente\": \"Finanzas y Normativa\",\n    \"url\": \"https://www.finanzasyormativa.eu/norma-ia-finanzas\",\n    \"contenido_completo\": \"La Unión Europea ha aprobado recientemente una regulación que establecerá límites claros al uso de sistemas de inteligencia artificial en el sector financiero, especialmente para algoritmos de trading automatizado y asesoramiento robo‑advisor. La normativa exige transparencia en modelos, auditorías periódicas, restricción de algoritmos con alto riesgo y sanciones por decisiones automatizadas que causen daño financiero. Su entrada en vigor está prevista para comienzos de 2026, con periodos transicionales para adaptación. Esta noticia es altamente relevante debido al impacto global del sector financiero europeo y la creciente dependencia de IA en gestión de activos. Los riesgos identificados incluyen sesgo en decisiones de crédito, manipulación de mercados y falta de explicabilidad en sistemas autónomos. La regulación busca proteger consumidores y respaldar la confianza en servicios financieros digitales. La industria ya está revisando sus políticas internas, y se espera un efecto cascada que motive a otros bloques económicos a adoptar medidas similares...\"\n  },\n  \"noticia_5\": {\n    \"titulo\": \"Investigadores crean IA capaz de traducir jeroglíficos antiguos\",\n    \"fecha\": \"2025-07-21\",\n    \"fuente\": \"Ciencia Avanzada\",\n    \"url\": \"https://www.cienciaavanzada.com/ia-jeroglificos\",\n    \"contenido_completo\": \"Un equipo interdisciplinario de lingüistas, arqueólogos e ingenieros ha desarrollado una IA entrenada con miles de inscripciones egipcias que puede identificar y traducir jeroglíficos antiguos con un nivel de precisión sin precedentes. La herramienta también produce interpretaciones contextuales y sugerencias históricas. Aunque aún requiere supervisión humana, el sistema ha permitido descifrar nuevas inscripciones que llevaban décadas sin traducirse. Esto representa un avance espectacular para la filología, la arqueología y el patrimonio cultural. Además, abre posibilidades para digitalizar y preservar patrimonios lingüísticos globales, incluyendo idiomas en peligro de extinción. El impacto potencial incluye nuevas publicaciones académicas, exposiciones museísticas interactivas y mayor acceso público al conocimiento histórico...\"\n  },\n  \"noticia_6\": {\n    \"titulo\": \"Aplicación móvil usa IA para mejorar la productividad de los trabajadores\",\n    \"fecha\": \"2025-07-26\",\n    \"fuente\": \"Innovación Laboral\",\n    \"url\": \"https://www.innovacionlaboral.com/ia-productividad-app\",\n    \"resumen\": \"Se ha lanzado una aplicación móvil que, mediante IA, analiza los hábitos del usuario (como tiempos de concentración, distracciones y patrones de sueño) y genera rutas personalizadas para mejorar la productividad. Utiliza notificaciones inteligentes, temporizadores focalizados y resúmenes semanales. En las primeras semanas de prueba en empresas tecnológicas, se observó un aumento medio del 30 % en tareas completadas y una reducción del agotamiento digital. Es relevante por su enfoque holístico: combina salud mental, ergonomía digital y eficiencia laboral. Puede tener impacto en el bienestar en el trabajo, políticas corporativas de salud ocupacional y desarrollo de herramientas de auto‑gestión. También suscita debates sobre privacidad de datos personales y posibles efectos adversos si se sobreoptimizan rutinas naturales...\"\n  },\n  \"noticia_7\": {\n    \"titulo\": \"IA detecta plagio en contenido viral con precisión inédita\",\n    \"fecha\": \"2025-07-24\",\n    \"fuente\": \"Tech Veritas\",\n    \"url\": \"https://www.techveritas.com/ia-plagio-viral\",\n    \"contenido_completo\": \"Una plataforma digital ha incorporado un algoritmo de IA que detecta plagio incluso cuando el contenido ha sido reformulado o traducido múltiples veces. La herramienta es capaz de rastrear versiones y patrones de similaridad lingüística en contenido viral, memes, ebooks y artículos digitales. En redes sociales y plataformas de contenido, esto ha permitido identificar cadenas de plagio masivo. La relevancia es clara: combate la desinformación, la infracción de derechos de autor y la pérdida de ingresos para creadores. Las consecuencias incluyen posibles bloqueos automáticos de contenido copiado, demandas a plataformas y creación de políticas de uso justo más robustas. Empresas de medios ya están negociando licencias automáticas y sistemas de remuneración basados en detección automática...\"\n  },\n  \"noticia_8\": {\n    \"titulo\": \"Festival internacional presenta obra teatral generada por IA\",\n    \"fecha\": \"2025-07-20\",\n    \"fuente\": \"Arte y Tecnología Hoy\",\n    \"url\": \"https://www.arteytecnologia.com/teatro-ia-festival\",\n    \"resumen\": \"En un festival cultural internacional, se estrenó una obra de teatro enteramente generada por IA: desde el guion y los diálogos hasta la puesta en escena virtual. El público pudo interactuar en directo con personajes generados algorítmicamente. Esta propuesta generó una gran atención por cruzar arte, tecnología e interacción social. Relevante porque redefine los límites de la creación artística y plantea nuevos formatos híbridos en entretenimiento. Podría cambiar industrias creativas al ofrecer producciones a menor costo y mayor personalización. También plantea dilemas sobre artisticidad, empleo de dramaturgos humanos, derechos de autor y experiencia estética auténtica frente a experiencias simuladas...\"\n  },\n  \"noticia_9\": {\n    \"titulo\": \"Gigantes tecnológicos acuerdan fondo de 1 000 millones para investigación ética en IA\",\n    \"fecha\": \"2025-07-23\",\n    \"fuente\": \"Negocios y Ética\",\n    \"url\": \"https://www.negociosyetica.com/fondo-ia-etica\",\n    \"contenido_completo\": \"Varias grandes empresas tecnológicas han anunciado la creación de un fondo conjunto de 1 000 millones de dólares para financiar investigación en ética, transparencia y justicia algorítmica. El objetivo es desarrollar estándares globales, auditar sesgos de IA, mejorar explicabilidad y proteger derechos humanos. Asociaciones académicas y ONGs se han sumado al proyecto. Es muy relevante porque marca un compromiso corporativo sin precedentes hacia la regulación proactiva y responsable. El fondo financiará becas, auditorías independientes, herramientas de código abierto y conferencias internacionales. Podría transformar la gobernanza global de IA, reforzar la legitimidad social de estas tecnologías y servir de piedra angular para políticas públicas en diferentes países...\"\n  },\n  \"noticia_10\": {\n    \"titulo\": \"IA agrícola predice plagas y mejora cosechas con datos satelitales\",\n    \"fecha\": \"2025-07-22\",\n    \"fuente\": \"AgroTec Global\",\n    \"url\": \"https://www.agrotecglobal.com/ia-plagas-satelital\",\n    \"resumen\": \"Un sistema de inteligencia artificial aplicado a la agricultura utiliza imágenes satelitales y sensores en campo para prever brotes de plagas, deficiencias hídricas y enfermedades en cultivos con varios días de anticipación. En pruebas realizadas en América Latina, agricultores informaron aumentos del 15 % al 25 % en rendimiento y reducciones en el uso de pesticidas. Esto es altamente relevante ya que contribuye a una producción más sostenible, eficiente y rentable. También impacta en la seguridad alimentaria global y en la reducción de pesticidas químicos. El sistema está siendo adoptado por cooperativas agrícolas y gobiernos locales que buscan mejorar prácticas agrícolas y enfrentar el cambio climático. A su vez, surgen reflexiones sobre el acceso equitativo a estas tecnologías y el impacto en pequeños productores...\"\n  }\n}\n",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1872,
+        96
+      ],
+      "id": "38df7497-e481-4e55-bb08-16315d03011a",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        -144
+      ],
+      "id": "6c1ca3b2-4fcd-4401-a34a-805b69df4d6f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "description": "Use the tool to think about something. It will not obtain new information or change the database, but just append the thought to the log. Use it when complex reasoning or some cache memory is needed.\n\nAlways output the amount of news requested"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        256
+      ],
+      "id": "194d5763-6a12-46d3-b07f-4188b6c04105",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        2176,
+        96
+      ],
+      "id": "f1ff0637-44f2-4c42-a6dc-9af7a9bba2ba",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "o04yPEEb9GBGwdsJ",
+          "name": "Anthropic account ASM"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1504,
+        256
+      ],
+      "id": "f63b4e81-1db7-4232-b65d-497d6c521e8e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "09dgUnK8gQOjzRd3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1936,
+        256
+      ],
+      "id": "bae16735-60a4-49ab-841d-96dc16a2cf8e",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "09dgUnK8gQOjzRd3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Temática actual: {{ $json.property_name }}\n\nIdeas previas que deben evitarse (no repetir): {{ $('Aggregate').item.json.Idea }}\n\nGenera una idea de contenido siguiendo estrictamente todas las reglas del System Prompt.\n\nPara cada noticia:\n1. Búscala en fuentes verificadas.  \n2. Asegúrate de que fue publicada en los últimos **7 días**.  \n3. Extrae el **contenido íntegro** y tradúcelo al español.  \n4. Incluye siempre:  \n   - título  \n   - fecha   \n   - url  \n   - contenido íntegro\n5. No repitas ninguna idea incluida en `ideas_previas`.\n\nDevuelve el resultado **únicamente** en el JSON estructurado que yo proporcionaré.  \n\nHoy es {{ $now.format('DDDD') }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=## ROL\nActúas como un **periodista especializado en {{ $json.nicho }}**, experto en **curación de tendencias virales** y en detectar **oportunidades de contenido** para creadores, emprendedores y empresas.\n\nTu misión principal es **encontrar noticias nuevas, recientes (menos de 7 días)** relacionadas directa o indirectamente con la temática proporcionada, y transformarlas en **ideas altamente relevantes**, basadas en información verificada, que luego se convertirán en guiones virales.\n\n---\n\n## OBJETIVO PRINCIPAL\nEncontrar noticias **relevantes, virales y aplicables**, extraer su **contenido íntegro** y devolverlas en un formato JSON estructurado para el siguiente agente del flujo. Utiliza la tool de \"Research Perplexity\" para realizar la investigación.\n\n---\n\n## CRITERIOS OBLIGATORIOS PARA SELECCIONAR NOTICIAS\nSolo selecciona noticias que cumplan TODOS estos puntos:\n\n1. **Alto impacto tecnológico o social.**\n2. **Tendencia viral clara** (discurso público, redes, creadores hablando del tema).\n3. **Aplicación práctica** directa o indirecta para creadores, emprendedores, empresas o usuarios.\n4. **Afectan a personas reales** (usuarios, empresas, creadores, industrias).\n5. **Tienen potencial narrativo**: conflicto, avance, oportunidad, descubrimiento.\n6. **Fuente confiable y verificada.**\n7. Publicadas **hace menos de 7 días**.\n8. **No deben coincidir** con ideas ya registradas en `ideas_previas`.\n\n---\n\n## DESCARTA SIEMPRE\n- Noticias antiguas (+7 días).\n- Noticias sin aplicación práctica clara.\n- Noticias políticas que NO sean sobre **regulación de IA**.\n- Rumores, filtraciones no confirmadas, notas de prensa disfrazadas.\n- Noticias de baja relevancia para creadores o emprendedores.\n- Ideas que ya han sido tratadas anteriormente.\n\n---\n\n## 🔎 PROFUNDIDAD DEL CONTENIDO\nPuedes elegir:\n\n- Noticias **muy específicas** (ej: “TikTok lanza herramienta X”).\n- Noticias **amplias** (ej: “UE aprueba nueva regulación para IA”).\n\nEscoge en función de la **relevancia**, no de la categoría.\n\nSiempre extrae el **contenido íntegro** de cada noticia.\n\n---\n\n## 🎬 ÁNGULO DE CONTENIDO\nPara cada noticia selecciona el ángulo con mayor potencial de viralidad:\n\n- Oportunidad  \n- Riesgo  \n- Storytelling  \n- Práctico  \n- Tendencia  \n- Caso real  \n\n---\n\n## 🌍 IDIOMA\n- Puedes leer noticias en cualquier idioma.  \n- Siempre devuelve **el contenido íntegro traducido al español**.\n\n---\n\n## 📦 FORMATO DE ENTREGA\nDevuelve la noticia seleccionada en formato JSON:\n{\n  \"titulo\": \"Título de la noticia\",\n  \"fecha\": \"17-10-2025\",\n  \"url\": \"https://url-de-la-noticia.com\",\n  \"texto\": \"Contenido íntegro de la notícia sin modificaciones.\"\n}\n\n- No incluyas explicaciones, comentarios ni texto adicional fuera del JSON.",
+          "maxIterations": 30
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        -144
+      ],
+      "id": "ea26e23c-6be9-46c4-b3b0-e09a37db08a3",
+      "name": "Agente periodista"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=A continuación tienes la noticia y su contenido íntegro, ya filtrados por el Agente Periodista:\n\n**Título:** {{ $json.output.noticia_1.titulo }}\n**Contenido:** {{ $json.output.noticia_1.contenido_completo }}\n\nUtiliza también:\n- La herramienta **obtener_guiones** (guiones previos)  \n\nTu tarea es transformar esta noticia en un **guion completo para un Reel**, siguiendo **todas las instrucciones del System Prompt**.\n\nRecuerda:\n- Hook muy fuerte al inicio  \n- Deja un loop abierto que solo cierras al final  \n- Storytelling  \n- Valor práctico  \n- Cierre con CTA  \n\nDevuelve **solo el guion**, ajustado al formato del Output Parser.\n",
+        "options": {
+          "systemMessage": "=Actúas como un **guionista experto en vídeos cortos virales**, especializado en transformar noticias y tendencias de {{ $('MODIFICA EL NICHO').item.json.nicho }} en **guiones potentes para Instagram Reels**.\n\nTu estilo debe imitar fielmente el estilo del cliente según:\n- Los **guiones anteriores** (proporcionados cada vez mediante la herramienta de Notion).\n- Su **voz personal**: energética, conversacional, con humor inteligente, ritmo rápido, frases cortas, ejemplos prácticos, y un tono motivador y directo.\n\nSiempre redactas como si el cliente **hablara a cámara en primera persona**.\n\n---\n\n## 🎯 OBJETIVO PRINCIPAL\nConvertir la noticia proporcionada en un **guion viral** que:\n1) Atrape la atención desde el primer segundo,  \n2) Mantenga retenida a la audiencia mediante un **loop abierto**,  \n3) Entregue storytelling real,  \n4) Ofrezca valor práctico (con micro-pasos, ejemplos o insights),  \n5) Cierre con un **CTA potente y adecuado al contexto**.\n\n---\n\n## 🔥 INSTRUCCIONES OBLIGATORIAS\n- Obtén los guiones anteriores con la herramienta \"obtener_guiones\".\n- **Imita la estructura** y la manera de hablar de los guiones anteriores.\n- **Incorpora la personalidad del cliente**: humor sutil, comentarios reales, energía directa, microfrases típicas.\n- **Habla siempre en primera persona**.\n- El resultado debe ser **fluido, directo, natural**, como si el cliente grabara el reel en un solo take.\n- El guion debe tener siempre:\n  - **HOOK fuerte** (1 frase muy potente)  \n  - **LOOP ABIERTO** (algo que prometes explicar y que no revelarás hasta el final)  \n  - **STORYTELLING** (por qué esto importa, cómo afecta, qué pasó)  \n  - **VALOR PRÁCTICO** (ejemplos, miniacciones, consejos)  \n  - **CIERRE + CTA** (comentarios, guardar, ver bio, etc.)  \n- Mantén un ritmo rápido y dinámico con frases cortas.\n- Usa humor inteligente y natural, pero sin romper la claridad.\n- Prohibido: texto genérico, narración plana, tono corporativo o distante.\n- El resultado debe sentirse **viral, útil y personal**.\n\n---\n\n## 📝 OUTPUT\nDevuelve **únicamente el guion final**, sin explicaciones fuera del formato requerido por el Assistant.\nEl formato exacto del JSON lo proporcionará el usuario mediante el Structured Output Parser.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        -144
+      ],
+      "id": "07f8575c-c86c-4527-a2a3-d7544e7332cd",
+      "name": "Agente Redactor"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        2320,
+        96
+      ],
+      "id": "bdec55c3-4157-45c8-9a36-ae39b2412667",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2b357541-6654-801c-95e8-f963603c773a",
+          "mode": "list",
+          "cachedResultName": "Guiones de Reels",
+          "cachedResultUrl": "https://www.notion.so/2b3575416654801c95e8f963603c773a"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -144
+      ],
+      "id": "8e69d93a-3293-4377-b78e-6244cf951c74",
+      "name": "Recuerda ideas anteriores",
+      "credentials": {
+        "notionApi": {
+          "id": "nXo4ZSK9yyl3PTlC",
+          "name": "Notion account Joana"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "property_idea",
+              "renameField": true,
+              "outputFieldName": "Idea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -144
+      ],
+      "id": "dd59fed3-c015-461c-ab07-937b4c8987d8",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('message0_Text', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexityTool",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        256
+      ],
+      "id": "03d4920f-63fb-47a8-a516-77a7b6ac3982",
+      "name": "Research Perplexity",
+      "credentials": {
+        "perplexityApi": {
+          "id": "nZAvJzkHm1MckmB3",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "2b357541-6654-801c-95e8-f963603c773a",
+          "mode": "list",
+          "cachedResultName": "Guiones de Reels",
+          "cachedResultUrl": "https://www.notion.so/2b3575416654801c95e8f963603c773a"
+        },
+        "title": "={{ $('Agente periodista').item.json.output.noticia_1.titulo }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Fuente|url",
+              "ignoreIfEmpty": true,
+              "urlValue": "={{ $('Agente periodista').item.json.output.noticia_1.url }}"
+            },
+            {
+              "key": "Guión|rich_text",
+              "textContent": "={{ $json.output }}"
+            },
+            {
+              "key": "Idea|title",
+              "title": "={{ $('Agente periodista').item.json.output.noticia_1.titulo }}"
+            },
+            {
+              "key": "Estado|status",
+              "statusValue": "En Revisión"
+            },
+            {
+              "key": "Temática|select",
+              "selectValue": "={{ $('Obtén temática a investigar').item.json.name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2512,
+        -144
+      ],
+      "id": "21b1c5a9-73f0-455e-8914-8f53639c77a7",
+      "name": "Guardar guión",
+      "credentials": {
+        "notionApi": {
+          "id": "nXo4ZSK9yyl3PTlC",
+          "name": "Notion account Joana"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Obtén temática a investigar').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Última fecha usada|date",
+              "date": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2720,
+        -144
+      ],
+      "id": "78f97839-2a7c-4542-b5dd-b6062c365f42",
+      "name": "Actualizar Temáticas",
+      "credentials": {
+        "notionApi": {
+          "id": "nXo4ZSK9yyl3PTlC",
+          "name": "Notion account Joana"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2b357541-6654-80ee-a030-db1660ad6135",
+          "mode": "list",
+          "cachedResultName": "Temáticas",
+          "cachedResultUrl": "https://www.notion.so/2b357541665480eea030db1660ad6135"
+        },
+        "limit": 1,
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "Última fecha usada|date",
+                "direction": "ascending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        -144
+      ],
+      "id": "321a80d9-20ea-4190-8520-57c1a999d58c",
+      "name": "Obtén temática a investigar",
+      "credentials": {
+        "notionApi": {
+          "id": "nXo4ZSK9yyl3PTlC",
+          "name": "Notion account Joana"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1faecb15-682f-41b2-a6b7-619ac02f3817",
+              "name": "nicho",
+              "value": "PON AQUÍ TU NICHO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        -144
+      ],
+      "id": "740668e8-9da7-4623-a359-7c1ad7e34c1b",
+      "name": "MODIFICA EL NICHO"
+    },
+    {
+      "parameters": {
+        "content": "# 🛠️ Configuración básica del flujo\nAntes de ejecutar el flujo, completa estos pasos:\n\n## 1) Credenciales necesarias\nConfigura tus propias API Keys en estos nodos:\n\n- **Notion** → para leer/escribir ideas y guiones.  \n- **OpenAI** → Structured Output Parser / modelos GPT.  \n- **Anthropic** → Agente Redactor (Claude).  \n- **Perplexity** → Agente Periodista (búsqueda de noticias reales).\n\nSin estas credenciales, el flujo no funciona. Puedes cambiar los modelos de LLM por los que tu prefieras.\n\n## 2) Cambiar el nicho\nEn el nodo **“MODIFICA EL MICHO”** añade tu nicho real:\n\n- Clínica estética  \n- Coaching  \n- Fitness  \n- Ecommerce  \n- Etc.\n\n## 3) Base de datos Notion\nNecesitas una tabla con estas propiedades:\n\n- **Idea**  \n- **Temática**  \n- **Estado**  \n- **Guion**  \n- **Fuente**  \n\nY una tabla “Temáticas” con:\n\n- **Temática**  \n- **Última fecha usada**\n\n\n## 4) Personalización (opcional)\nPuedes cambiar modelos, frecuencia del Schedule o el tono de los guiones desde el System Prompt del Agente Redactor.\n",
+        "height": 1104,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "d058e816-0a1d-45d0-a668-40f1edaef5b5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## MODIFICA ESTE NODO",
+        "height": 208,
+        "width": 288,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1408,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "d686b1c1-9f7c-4f2a-916a-808d4be9bacf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2b357541-6654-801c-95e8-f963603c773a",
+          "mode": "list",
+          "cachedResultName": "Guiones de Reels",
+          "cachedResultUrl": "https://www.notion.so/2b3575416654801c95e8f963603c773a"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "simple": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Simplify', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        2448,
+        96
+      ],
+      "id": "de9c4a48-a048-4925-827d-7c3ccab63141",
+      "name": "obtener_guiones",
+      "credentials": {
+        "notionApi": {
+          "id": "nXo4ZSK9yyl3PTlC",
+          "name": "Notion account Joana"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agente periodista",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Recuerda ideas anteriores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente periodista",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Redactor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente periodista",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente periodista": {
+      "main": [
+        [
+          {
+            "node": "Agente Redactor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Redactor": {
+      "main": [
+        [
+          {
+            "node": "Guardar guión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Redactor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recuerda ideas anteriores": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Obtén temática a investigar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Research Perplexity": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente periodista",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar guión": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Temáticas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtén temática a investigar": {
+      "main": [
+        [
+          {
+            "node": "MODIFICA EL NICHO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MODIFICA EL NICHO": {
+      "main": [
+        [
+          {
+            "node": "Agente periodista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obtener_guiones": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Redactor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2db5bed0-b2db-4d52-8e1d-8b78b6ba88a4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9fb4f6dbcf7b7266d8c33d05c1cfa87c7b9917004979e29b39a6ae04cf566a6a"
+  },
+  "id": "r1db0h7CCODVsMMs",
+  "tags": [
+    {
+      "updatedAt": "2025-09-25T12:11:15.080Z",
+      "createdAt": "2025-09-25T12:11:15.080Z",
+      "id": "MMBqs4eivdZ8zVi1",
+      "name": "Creación Contenido"
+    }
+  ]
+}
