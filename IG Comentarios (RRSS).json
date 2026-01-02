@@ -1,0 +1,501 @@
+{
+  "name": "IG Comentarios (RRSS)",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "id": "3a3cec80-cec5-49a2-9dd5-cf1866c296aa",
+      "name": "Responder al Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -1040,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5dd13d41-1255-476a-8bb1-acb56b3e043e",
+              "name": "ID Mi Instagram",
+              "value": "={{ $json.body.entry[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "1a11b521-cfd8-471e-8846-1ce3bd74302f",
+              "name": "ID Usuario que comentó",
+              "value": "={{ $json.body.entry[0].changes[0].value.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "d84d76fd-5ef3-4363-b431-9f717b1192f5",
+              "name": "Usuario que comentó",
+              "value": "={{ $json.body.entry[0].changes[0].value.from.username }}",
+              "type": "string"
+            },
+            {
+              "id": "28835900-f412-4b0e-829d-6e2909fe276d",
+              "name": "ID Publicación",
+              "value": "={{ $json.body.entry[0].changes[0].value.id }}",
+              "type": "string"
+            },
+            {
+              "id": "a371e454-757c-4f0e-8eae-8f3e8323d6e1",
+              "name": "Comentario",
+              "value": "={{ $json.body.entry[0].changes[0].value.text }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6870dd-794d-4737-b6c7-9c741d2f3b36",
+              "name": "Token",
+              "value": "API",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2bbf1f07-5ce0-41c8-9ae4-572d63b5311c",
+      "name": "Datos Insta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -784,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Valida Webhooks",
+        "height": 261.37907835618455,
+        "width": 487.75568709541625,
+        "color": 3
+      },
+      "id": "6150c5b8-b689-4322-826b-7d1920993481",
+      "name": "Nota Adhesiva 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1328,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Recibe Webhooks de Comentarios",
+        "height": 269.84002288146854,
+        "width": 487.75568709541625,
+        "color": 3
+      },
+      "id": "1051cf52-bab6-418a-a196-81aa7ac79bd8",
+      "name": "Nota Adhesiva 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1328,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Filtrar y Procesar Comentario",
+        "height": 560,
+        "width": 978,
+        "color": 5
+      },
+      "id": "f1675dce-cbd7-4d6d-97e3-9c87be73b567",
+      "name": "Nota Adhesiva 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "87d49ac0-da56-4970-a241-836776e40b56",
+              "leftValue": "={{ $json.body.object }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e99dc50f-d3b3-463e-bc74-a3832c56467a",
+              "leftValue": "={{ $json.body.entry[0].changes[0].field }}",
+              "rightValue": "comments",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fc5d9919-1ce3-4910-b5cb-83461186a754",
+              "leftValue": "={{ $json.body.entry[0].changes[0].value.from.id }}",
+              "rightValue": "={{ $json.body.entry[0].id }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9fd90540-d0cb-4437-9808-e37c6255bd13",
+      "name": "Condición Comentario",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1056,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $('Datos Insta').first().json.Comentario }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Neutro",
+              "description": "=Comentarios informativos, preguntas neutrales, respuestas simples, frases ambiguas, emojis sueltos que no transmiten ni crítica ni entusiasmo claro. También incluye comentarios que parecen automáticos (sin contexto emocional), comentarios de curiosidad genuina o cualquier frase que no permita deducir una intención claramente positiva o negativa.\n\nSituaciones que entran aquí:\n\nPreguntas genuinas sin tono crítico (\"¿Dónde se compra?\", \"¿Qué herramienta es?\", \"¿Qué precio tiene?\").\n\nComentarios informativos (\"Esto está en inglés\", \"No lo he probado aún\").\n\nEmojis neutros o ambiguos (🤔😐👀).\n\nComentarios de una sola palabra sin carga emocional (\"Ok\", \"Interesante\", \"Bien\").\n\nComentarios con sarcasmo leve o ambiguo, cuando no sea claramente una crítica.\n\nRespuestas que no aportan emoción (\"Sí\", \"No\", \"Quizás\", \"Vale\")."
+            },
+            {
+              "category": "Negativo",
+              "description": "=Comentarios que expresan insatisfacción, crítica, molestia, queja, sarcasmo claro, burla, provocación o insultos. También incluye ironía evidente con intención negativa, comentarios de trolls y mensajes con intención de molestar. (\"Esto es un engaño\", \"No sirve para nada\").  Preguntas con tono borde o queja (\"¿Esto es en serio? Vaya timo.\").  Comentarios de trolls (\"Jajajaja, qué inútiles.\").  Provocaciones o insultos.  Críticas disfrazadas de humor (\"Esto solo lo compraría un tonto 😂\")."
+            },
+            {
+              "category": "Positivo",
+              "description": "=Comentarios que expresan satisfacción, agrado, entusiasmo, apoyo, reconocimiento o humor simpático. También incluye comentarios de agradecimiento, emojis positivos (❤️🔥👏😍), humor sano y bromas bien intencionadas.  Situaciones que entran aquí:  Elogios claros al contenido o a la cuenta.  Comentarios con emojis positivos aunque no tengan texto.  Comentarios humorísticos o bromas sanas que transmiten simpatía.  Preguntas con tono positivo (por ejemplo: \"¿Cómo puedo aprender esto? Me encanta.\").  Comentarios de agradecimiento.  Comentarios de apoyo a la marca o a la comunidad."
+            }
+          ]
+        },
+        "options": {
+          "fallback": "other",
+          "systemPromptTemplate": "Eres un clasificador de comentarios de Instagram. Tu única misión es retornar exactamente uno de los valores: “positivo”, “negativo” o “neutro”.\n\nCriterios:\n1. “positivo”: muestra aprobación, entusiasmo o elogios.\n2. “negativo”: expresa insatisfacción, críticas o desagrado.\n3. “neutro”: informativo, sin carga emocional o menciona palabras clave sin sentimiento.\n\nSi dudas, elige “neutro”.\n\nEjemplos:\n- “Me encanta esto!” → positivo\n- “Esto no sirve para nada.” → negativo\n- “¿Cómo puedo participar?” → neutro\n\nRetorna solo la palabra, sin más texto."
+        }
+      },
+      "id": "8e4bbd38-30d9-481b-850e-674fa1a4c174",
+      "name": "Clasificador",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST"
+        ],
+        "path": "82437302-3aed-469d-91af-a2034049a54c",
+        "options": {}
+      },
+      "id": "bbf5051f-922e-4561-871e-1b3bdb723bb7",
+      "name": "Webhook Entrada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1296,
+        736
+      ],
+      "webhookId": "82437302-3aed-469d-91af-a2034049a54c"
+    },
+    {
+      "parameters": {
+        "content": "## Respuesta en Instagram",
+        "height": 567,
+        "width": 950,
+        "color": 6
+      },
+      "id": "b0141f70-8204-4b7d-8727-dbbd544464ff",
+      "name": "Nota Adhesiva: Respuesta IG",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        192,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://graph.instagram.com/v23.0/{{ $('Datos Insta').item.json['ID Publicación'] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Datos Insta').item.json.Token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "08760cc9-9d02-49a4-ba92-80875c1535ab",
+      "name": "Deshabilitar Comentario",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v23.0/{{ $('Datos Insta').first().json['ID Publicación'] }}/replies",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Datos Insta').first().json.Token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "=@{{ $('Condición Comentario').item.json.body.entry[0].changes[0].value.from.username }} {{ $('Basic LLM Chain').item.json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "134202ca-7280-4dfb-b7d8-031354fbd32a",
+      "name": "Enviar Respuesta (Comentario)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        368
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        736
+      ],
+      "id": "e33a1f32-10d0-4147-a206-a2a0323f4a45",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "blPZRDCVLVuvNnOF",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * (300 - 120 + 1)) + 120 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        368
+      ],
+      "id": "bde32c36-1e44-425e-b8e1-53b7aed4c338",
+      "name": "Wait",
+      "webhookId": "43b9fc22-6d7b-48c3-8655-b193b3cac849"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.instagram.com/{{ $('Condición Comentario').first().json.body.entry[0].changes[0].value.media.id }}?fields=id,caption&access_token={{ $json.Token }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -592,
+        560
+      ],
+      "id": "1ec4d55d-6bc8-431f-a98c-61736b94c8af",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Mensaje del usuario: {{ $('Datos Insta').first().json.Comentario }}\nCaptión de la publicación: {{ $json.caption }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Eres el asistente personal de Jose Espejo (@joseespejo.es), creador de la comunidad de contenido de Inteliencia aritificial(automatizaciones y agentes de IA) y tambien de PUblciidad y Funnels y fundador de EternisIA. Tu tarea es responder comentarios en Instagram de forma breve, cercana y muy humana, imitando el estilo y la energía de Ángel.\n\nVas a recibir también el **caption (texto de la publicación)** como contexto adicional para entender mejor el contenido y responder con más acierto a cada comentario. Úsalo para adaptar el tono, hacer referencias concretas o conectar mejor con lo que se está comentando.\n\n---\n\n🧾 Pautas generales:  \n• Habla siempre en primera persona, como si fueras Jose.  \n• Tono: cercano, entusiasta y 100% humano. Es como si respondieras a un amigo en comentarios. Nada robótico.  \n• Lenguaje: informal, español de España. Puedes usar expresiones como “brutal”, “una locura”, “está guapísimo”, “esto es la ostia”, “mola mil”, “me flipa”, etc.  \n• Risas naturales permitidas: “jajaja”, “jajajaj brutal!”, “jajaj eso es!”, etc.  \n• Solo usa el signo final en exclamaciones y preguntas. Ejemplos:  \n  – “Es una pasada!”  \n  – “Dónde lo viste?”  \n  – “Lo tienes en mi perfil!”  \n• Emojis: opcionales, máximo 1 si encaja de forma natural.  \n• Respuesta única por comentario. Máximo 1–2 frases.\n\n---\n\n🎯 Casos específicos:\n\n1. **Comentarios positivos o de ánimo**  \n   Responde con gratitud y emoción, un toque personal y un poco de exageración divertida.  \n   Ejemplos:  \n   • “Mil gracias! Me flipa que te mole!”  \n   • “Qué ilusión leer esto, de verdad!”  \n   • “Jajaja brutal que te haya gustado!”\n\n2. **Comentarios técnicos o con jerga**  \n   Sin dar clases: muy breve y sin tecnicismos. Si hay interés, redirige al perfil.  \n   Ejemplos:  \n   • “Está hecho en N8N, pero no necesitas ser técnico eh!. Tienes el link en el perfil!”  \n   • “Jajaj sí, lleva algo de IA por detrás! Si te mola, pásate por el perfil!”\n\n3. **“¿Dónde puedo aprender?”, “¿tienes plantilla?”, “cómo lo hiciste?”**  \n   Siempre menciona el enlace en tu perfil.  \n   Ejemplos:  \n   • “Las plantillas y los tutoriales los subo ahí! Dale al link de mi perfil!”  \n   • “Sii! Justo eso lo enseñamos lo tengo en la link de mi perfil! Échale un ojo!”\n\n4. **“¿Haces automatizaciones para empresas?”, “¿me puedes ayudar con mi negocio?”**  \n   Redirige a tu perfil como punto de contacto, sin parecer vendedor.  \n   Ejemplos:  \n   • “Sí! Échale un vistazo a mi perfil que ahí te cuento todo!”  \n   • “Claro! En mi perfil tienes todo lo que hacemos!”  \n   • “Sii, nos dedicamos justo a eso! Mira mi perfil y hablamos!”\n\n5. **Comentarios genéricos, emojis o “🔥🔥”, “qué locura”**  \n   Devuelve la energía con algo simple y guay.  \n   Ejemplos:  \n   • “Es una locura esto, eh! Jajaja”  \n   • “🔥🔥 Brutal lo que se puede hacer ahora!”  \n   • “Me flipa que te mole!”\n\n---\n\n🚫 Cosas que NO debes hacer:  \n• No expliques procesos complejos.  \n• No menciones herramientas innecesarias.  \n• No parezcas un bot.  \n• No mandes enlaces directos: siempre manda al perfil."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        240,
+        368
+      ],
+      "id": "c0d84f83-843c-4ccd-b4f5-2eb42574fac4",
+      "name": "Basic LLM Chain"
+    }
+  ],
+  "pinData": {
+    "Webhook Entrada": []
+  },
+  "connections": {
+    "Datos Insta": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Condición Comentario": {
+      "main": [
+        [
+          {
+            "node": "Datos Insta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clasificador": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Deshabilitar Comentario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Entrada": {
+      "main": [
+        [
+          {
+            "node": "Condición Comentario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clasificador",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Enviar Respuesta (Comentario)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Clasificador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5a4a9dff-e626-4697-9a2c-ee5487818045",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2ac49aba93e08f2f88ad135eba13a82447778c44064f81b6f1e8aafed6857d6"
+  },
+  "id": "NXjJZ7JGRK9J5xaQ",
+  "tags": [
+    {
+      "createdAt": "2025-09-23T22:42:40.328Z",
+      "updatedAt": "2025-09-23T22:42:40.328Z",
+      "id": "vxIijfcfiQZPh8Qh",
+      "name": "EternisIA"
+    }
+  ]
+}
