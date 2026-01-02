@@ -1,0 +1,895 @@
+{
+  "name": "Agendar WA (RRSS)",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendarId": "={{ $('Variable Definitiva').item.json.calendarId }}",
+        "locationId": "={{ $('Variable Definitiva').item.json.locationId }}",
+        "contactId": "={{ $json.id }}",
+        "startTime": "={{$('When Executed by Another Workflow').item.json.citaSolicitada}}",
+        "additionalFields": {
+          "endTime": "={{\nDateTime\n  .fromISO($('When Executed by Another Workflow').item.json.citaSolicitada, { zone: 'Europe/Madrid' })\n  .plus({ minutes: Number($('Variable Definitiva').item.json.duracion) })\n  .setZone('Europe/Madrid')\n  .toISO()\n}}"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -1088,
+        1744
+      ],
+      "id": "ee16fa28-3a6b-48f7-a23f-f5ee5de09165",
+      "name": "Book appointment in a calendar",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "nG3zhxYefE5tnYng",
+          "name": "HighLevel EternisIA"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "email": "=id34{{ $('When Executed by Another Workflow').item.json.telefono }}@gmail.com",
+        "phone": "=+34{{ $('When Executed by Another Workflow').item.json.telefono }}",
+        "additionalFields": {
+          "customFields": {
+            "values": [
+              {
+                "fieldId": {
+                  "__rl": true,
+                  "value": "RZAVi5bguYYq7NogGMIZ",
+                  "mode": "list",
+                  "cachedResultName": "Descripción de la cita:"
+                },
+                "fieldValue": "Demostración Gratuita de los agentes conversacionales y automatizaciones."
+              },
+              {
+                "fieldId": {
+                  "__rl": true,
+                  "value": "g108EQuNZN4cq7uIN6wR",
+                  "mode": "list",
+                  "cachedResultName": "Fecha y hora de la cita:"
+                },
+                "fieldValue": "={{$('When Executed by Another Workflow').item.json.citaSolicitada}}"
+              }
+            ]
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.highLevel",
+      "typeVersion": 2,
+      "position": [
+        -1376,
+        1744
+      ],
+      "id": "d9220c5a-a0e7-4839-b60a-ef74138e6cea",
+      "name": "Create or update a contact",
+      "credentials": {
+        "highLevelOAuth2Api": {
+          "id": "nG3zhxYefE5tnYng",
+          "name": "HighLevel EternisIA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.cal.com/v2/slots",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $('Variable Definitiva').item.json.username }}"
+            },
+            {
+              "name": "eventTypeSlug",
+              "value": "={{ $('Variable Definitiva').item.json.eventTypeSlug }}"
+            },
+            {
+              "name": "start",
+              "value": "={{ $json.start }}"
+            },
+            {
+              "name": "end",
+              "value": "={{ $json.end }}"
+            },
+            {
+              "name": "=timeZone",
+              "value": "={{ $('When Executed by Another Workflow').item.json.zonaHoraria }}"
+            },
+            {
+              "name": "duration",
+              "value": "={{ $('Variable Definitiva').item.json.duracion }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "cal-api-version",
+              "value": "2024-09-04"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Variable Definitiva').item.json.apiKey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1216,
+        1344
+      ],
+      "id": "20b42a0a-5d3a-486a-a946-76190a6c21e8",
+      "name": "Mirar Disponibilidad"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "calendario-miguel-lopez",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ec052499-fc6b-4ab6-af97-23d163a8cfd7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Lopez"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6dfb6f01-20f6-4a6a-a32c-296e4118599b",
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "=calendario-laura-munoz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Muñoz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f1fc3fca-44a9-4cc3-adf2-76478b894730",
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "calendario-elena-crespo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Crespo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -2336,
+        1520
+      ],
+      "id": "66b90969-cc22-420b-937f-81cc83621730",
+      "name": "Que Doctor Es?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23cae85f-0868-4a99-9fd4-a8f379728d1b",
+              "name": "username",
+              "value": "eternisia",
+              "type": "string"
+            },
+            {
+              "id": "9d111618-82d3-4cbe-a2ea-07d87060b551",
+              "name": "eventTypeSlug",
+              "value": "laura-munoz",
+              "type": "string"
+            },
+            {
+              "id": "b23bc98e-8362-4651-83f4-b5bd357034f3",
+              "name": "apiKey",
+              "value": "API Cal.com",
+              "type": "string"
+            },
+            {
+              "id": "6d412e3d-4a50-4de8-af2e-f84bb80e5b40",
+              "name": "locationId",
+              "value": "High Level",
+              "type": "string"
+            },
+            {
+              "id": "a1b25047-b730-46b7-a0b5-b653b3ed43e2",
+              "name": "calendarId",
+              "value": "High Level",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2112,
+        1536
+      ],
+      "id": "1750d1f7-7990-49f0-98ff-5d8a943002df",
+      "name": "Setear Variables1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23cae85f-0868-4a99-9fd4-a8f379728d1b",
+              "name": "username",
+              "value": "eternisia",
+              "type": "string"
+            },
+            {
+              "id": "9d111618-82d3-4cbe-a2ea-07d87060b551",
+              "name": "eventTypeSlug",
+              "value": "elena-crespo",
+              "type": "string"
+            },
+            {
+              "id": "301a2da9-64ba-4ccd-a1ab-8959dceec5de",
+              "name": "apiKey",
+              "value": "API Cal.com",
+              "type": "string"
+            },
+            {
+              "id": "fd1a8fb5-5e40-4e52-8179-456966143f8d",
+              "name": "locationId",
+              "value": "High Level",
+              "type": "string"
+            },
+            {
+              "id": "27406b4d-6708-42b5-b5f7-b237daa9f2d3",
+              "name": "calendarId",
+              "value": "High Level",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2112,
+        1728
+      ],
+      "id": "0b0de8b2-4325-4f2c-93c2-38bd057ec99e",
+      "name": "Setear Variables2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "25fe732b-8323-41f3-a95f-f8af29acf607",
+              "name": "username",
+              "value": "={{$json.username}}",
+              "type": "string"
+            },
+            {
+              "id": "6e3592cb-22a2-489b-bcd3-0cba0a23126c",
+              "name": "eventTypeSlug",
+              "value": "={{$json.eventTypeSlug}}",
+              "type": "string"
+            },
+            {
+              "id": "2d8522fc-c69e-48e3-ba22-22725dc08091",
+              "name": "apiKey",
+              "value": "={{$json.apiKey}}",
+              "type": "string"
+            },
+            {
+              "id": "69e20145-1986-4c99-b624-0a62dc7096d5",
+              "name": "duracion",
+              "value": "={{ $('When Executed by Another Workflow').item.json.duracion}}",
+              "type": "string"
+            },
+            {
+              "id": "5793c5d9-db27-4e28-b8c3-9735fd41c58e",
+              "name": "calendarId",
+              "value": "={{ $json.calendarId }}",
+              "type": "string"
+            },
+            {
+              "id": "dafc7736-8478-419c-9925-fe3a9d0ab6d4",
+              "name": "locationId",
+              "value": "={{ $json.locationId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1872,
+        1536
+      ],
+      "id": "4f4ad5e3-bed3-4518-8bd5-0d884aaa368e",
+      "name": "Variable Definitiva"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== Utilidades =====\nfunction formatoHoraEspañol(dateTime) {\n  const hora = dateTime.hour;\n  const minuto = dateTime.minute;\n  const minutoStr = minuto === 0 ? '' : `:${minuto.toString().padStart(2, '0')}`;\n  let horaDoce = hora % 12; if (horaDoce === 0) horaDoce = 12;\n  const periodo = (hora < 12) ? \" de la mañana\" : (hora < 20) ? \" de la tarde\" : \" de la noche\";\n  return (horaDoce === 1) ? `La 1${minutoStr}${periodo}` : `Las ${horaDoce}${minutoStr}${periodo}`;\n}\n\n// Devuelve el .json del primer item de un nodo (salida 0, run actual), o undefined\nfunction firstJson(nodeName) {\n  try {\n    const arr = $items(nodeName, 0, $runIndex) || $items(nodeName, 0, 0) || [];\n    return (arr[0] && arr[0].json) ? arr[0].json : undefined;\n  } catch (e) {\n    return undefined;\n  }\n}\n\n// ===== 1) Leer ORIGEN (cita/zona) =====\n// Intenta cogerlo del nodo original que trae tu payload; pon aquí el nombre real si es otro:\nconst origen =\n  firstJson('When Executed by Another Workflow') ||   // si existe\n  firstJson('Entrada') ||                             // fallback opcional\n  $json;                                             // último recurso\n\nconst TZ  = origen?.zonaHoraria || 'Europe/Madrid';\nconst req = origen?.citaSolicitada\n  ? DateTime.fromISO(origen.citaSolicitada, { setZone: true }).setZone(TZ).startOf('minute')\n  : null;\n\nconst reqUTCms   = req ? req.toUTC().toMillis() : null;\nconst sameDayKey = req ? req.toISODate() : null;\n\n// Si no tenemos cita, no podemos comparar\nif (!req) {\n  return [{\n    json: {\n      isAvailable: false,\n      message: \"No recibí 'citaSolicitada' en el contexto. Pásame la fecha/hora en el item de entrada.\",\n      debug: { origenKeys: Object.keys(origen || {}), gotReq: false }\n    }\n  }];\n}\n\n// ===== 2) Leer SLOTS (de Are Slots Available1 o de Mirar Disponibilidad) =====\nlet md = firstJson('Are Slots Available1') || firstJson('Mirar Disponibilidad') || $json;\n\n// Acepta estructuras: { data: { 'YYYY-MM-DD': [...] } } o array [ { data: {...} } ]\nlet containers = [];\nif (Array.isArray(md)) containers = md;\nelse if (md && typeof md === 'object') containers = [md];\n\nlet rawSlots = [];\nfor (const c of containers) {\n  const dataObj = c?.data ?? c;\n  const arr = dataObj?.[sameDayKey];\n  if (Array.isArray(arr)) rawSlots = rawSlots.concat(arr);\n}\n\n// Si sigue vacío, prueba clave en UTC (proveedores que indexan en UTC)\nif (rawSlots.length === 0) {\n  const dayKeyUTC = req.toUTC().toISODate();\n  for (const c of containers) {\n    const dataObj = c?.data ?? c;\n    const arr = dataObj?.[dayKeyUTC];\n    if (Array.isArray(arr)) rawSlots = rawSlots.concat(arr);\n  }\n}\n\n// ===== 3) Normalizar slots =====\nfunction parseSlot(slot) {\n  const iso = (typeof slot === 'string') ? slot : slot?.start;\n  if (!iso) return null;\n  const hasZone = /[zZ]|[+\\-]\\d{2}:\\d{2}$/.test(iso);\n  const dt = hasZone ? DateTime.fromISO(iso, { setZone: true })\n                     : DateTime.fromISO(iso, { zone: TZ });\n  if (!dt.isValid) return null;\n  return dt.setZone(TZ).startOf('minute');\n}\nconst slots = rawSlots.map(parseSlot).filter(Boolean);\n\n// ===== 4) Comparación exacta =====\nconst isAvailable = slots.some(dt => dt.toUTC().toMillis() === reqUTCms);\n\n// ===== 5) Mensaje + sugerencias =====\nlet message = \"\";\nif (isAvailable) {\n  message = \"Sí, ese horario está disponible. ¿Quieres que te agende la cita?\";\n} else if (slots.length > 0) {\n  const sugerencias = slots\n    .filter(dt => dt.toUTC().toMillis() !== reqUTCms)\n    .map(dt => ({ dt, diff: Math.abs(dt.toMillis() - req.toMillis()) }))\n    .sort((a, b) => a.diff - b.diff)\n    .slice(0, 2)\n    .map(x => formatoHoraEspañol(x.dt));\n\n  message = (sugerencias.length > 0)\n    ? `La hora solicitada no está libre. Puedo ofrecer: ${sugerencias.join(' y ')}. ¿Quieres reservar alguna?`\n    : \"No hay otra franja cercana ese día. ¿Busco otra fecha u hora?\";\n} else {\n  message = \"No he encontrado huecos para ese día. ¿Quieres probar con otra fecha?\";\n}\n\n// ===== 6) Salida con mini debug =====\nreturn [{\n  json: {\n    isAvailable,\n    message,\n    debug: {\n      requested_local: req.toISO(),\n      sameDayKey,\n      containers: containers.length,\n      totalSlotsDia: slots.length,\n      primerosSlots: slots.slice(0, 3).map(s => s.toISO())\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1184
+      ],
+      "id": "13772eb6-6bac-4be0-9aa5-a51358f42300",
+      "name": "Sugerir Horarios Cercanos1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "22767100-ef1c-4356-aa4a-3b58d4f81075",
+              "name": "start",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "0f4d3db6-9958-4cff-a310-3536c544e19d",
+              "name": "end",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .plus({ days: 1 })\n   .toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1440,
+        1344
+      ],
+      "id": "930a98c1-7a1c-4a8e-b1a7-db138629ca91",
+      "name": "Comienzo y Final2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "46aadd77-eb8f-4351-8b88-26c7fcb82e03",
+              "leftValue": "={{ $json.data }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -992,
+        1344
+      ],
+      "id": "5466853c-7c3a-4fad-8a0f-3e9984a00e8e",
+      "name": "Are Slots Available1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('When Executed by Another Workflow').item.json.funcionName }}",
+                    "rightValue": "consultar_disponibilidad",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5fa12cfb-483b-4fda-89b2-33908d2a727e"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "mirarDisponibilidad"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b2678560-ec05-4e9d-bb66-6944e049ff7f",
+                    "leftValue": "={{ $('When Executed by Another Workflow').item.json.funcionName }}",
+                    "rightValue": "agendar_cita",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "agendarCita"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1664,
+        1536
+      ],
+      "id": "aabd74f8-589f-4a8a-b0ba-858ba1f5e8a9",
+      "name": "Elegir Herramienta1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23cae85f-0868-4a99-9fd4-a8f379728d1b",
+              "name": "username",
+              "value": "eternisia",
+              "type": "string"
+            },
+            {
+              "id": "9d111618-82d3-4cbe-a2ea-07d87060b551",
+              "name": "eventTypeSlug",
+              "value": "miguel-lopez",
+              "type": "string"
+            },
+            {
+              "id": "3b97d7f1-f53e-4ed0-a007-6485abf0a7e3",
+              "name": "apiKey",
+              "value": "API Cal.com",
+              "type": "string"
+            },
+            {
+              "id": "2d43b2cc-b86b-4173-8b58-c55717b3d2e0",
+              "name": "calendarId",
+              "value": "High Level",
+              "type": "string"
+            },
+            {
+              "id": "c46630d7-6ff7-4bb3-840d-147da52e866d",
+              "name": "locationId",
+              "value": "High Level",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2112,
+        1344
+      ],
+      "id": "6868c708-de11-469f-a0c0-b9fb9d929bf9",
+      "name": "Setear Variables3"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "nombre"
+            },
+            {
+              "name": "telefono"
+            },
+            {
+              "name": "zonaHoraria"
+            },
+            {
+              "name": "doctorNombre"
+            },
+            {
+              "name": "citaSolicitada"
+            },
+            {
+              "name": "funcionName"
+            },
+            {
+              "name": "duracion"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2576,
+        1536
+      ],
+      "id": "8a80a9a5-1e9f-4cf2-96f3-1500bb266ab8",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4011f976-f451-4b39-8d9b-9c43344e8c13",
+              "name": "response",
+              "value": "={{ $('Sugerir Horarios Cercanos1').item.json.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        1184
+      ],
+      "id": "4f2798c1-38e3-4a1a-80aa-a4505d84471a",
+      "name": "CitaDisponible"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4011f976-f451-4b39-8d9b-9c43344e8c13",
+              "name": "response",
+              "value": "=No esta disponible ese horario, intenta seleccionar otro día u hora.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        1408
+      ],
+      "id": "37ca8c15-4f80-48f2-a665-e47b2515fbf0",
+      "name": "NO disponible"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4011f976-f451-4b39-8d9b-9c43344e8c13",
+              "name": "response",
+              "value": "=La cita ha sido agendada con éxito.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -752,
+        1648
+      ],
+      "id": "6e1301df-96ce-40fd-b10d-555c6e12a52d",
+      "name": "Cita Agendada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4011f976-f451-4b39-8d9b-9c43344e8c13",
+              "name": "response",
+              "value": "=La reserva no se ha realizado con éxito. Prueba con otro día u hora.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -752,
+        1824
+      ],
+      "id": "e338ff94-e58d-4daa-8a60-850f65d56bb4",
+      "name": "Cita Agendada1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Book appointment in a calendar": {
+      "main": [
+        [
+          {
+            "node": "Cita Agendada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cita Agendada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Book appointment in a calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mirar Disponibilidad": {
+      "main": [
+        [
+          {
+            "node": "Are Slots Available1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Que Doctor Es?": {
+      "main": [
+        [
+          {
+            "node": "Setear Variables3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Setear Variables1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Setear Variables2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setear Variables2": {
+      "main": [
+        [
+          {
+            "node": "Variable Definitiva",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setear Variables1": {
+      "main": [
+        [
+          {
+            "node": "Variable Definitiva",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variable Definitiva": {
+      "main": [
+        [
+          {
+            "node": "Elegir Herramienta1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sugerir Horarios Cercanos1": {
+      "main": [
+        [
+          {
+            "node": "CitaDisponible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comienzo y Final2": {
+      "main": [
+        [
+          {
+            "node": "Mirar Disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Are Slots Available1": {
+      "main": [
+        [
+          {
+            "node": "Sugerir Horarios Cercanos1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NO disponible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elegir Herramienta1": {
+      "main": [
+        [
+          {
+            "node": "Comienzo y Final2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setear Variables3": {
+      "main": [
+        [
+          {
+            "node": "Variable Definitiva",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Que Doctor Es?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "639c490e-0d73-4def-a738-c21608a6c423",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2ac49aba93e08f2f88ad135eba13a82447778c44064f81b6f1e8aafed6857d6"
+  },
+  "id": "OXK4OaB03V5zBPDY",
+  "tags": [
+    {
+      "createdAt": "2025-09-23T22:42:53.779Z",
+      "updatedAt": "2025-09-23T22:42:53.779Z",
+      "id": "Lt793ahTwh3fM0sj",
+      "name": "Psicologos"
+    },
+    {
+      "createdAt": "2025-09-23T22:43:35.319Z",
+      "updatedAt": "2025-09-23T22:43:35.319Z",
+      "id": "uHLV0lFPgFQ1o0yz",
+      "name": "LeadMagnet"
+    }
+  ]
+}

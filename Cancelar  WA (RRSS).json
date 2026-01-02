@@ -1,0 +1,790 @@
+{
+  "name": "Cancelar  WA (RRSS)",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a9907bb8-231d-444e-96dc-df43547a4853",
+              "name": "=start",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "a472df1e-7075-4be9-a034-2c7c73b1af0b",
+              "name": "end",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .plus({ days: 1 })\n   .toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2064,
+        2272
+      ],
+      "id": "d29b6b88-6e92-453f-a585-a4413d8ef964",
+      "name": "Setear Variables"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4de0725-a5be-40d9-b2b1-44bc0293a029",
+              "name": "citaID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1632,
+        2272
+      ],
+      "id": "ca7e3065-89cf-4e1f-8e88-218d4db7a643",
+      "name": "ID de Cita"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "info@eternisia.com",
+          "mode": "list",
+          "cachedResultName": "info@eternisia.com"
+        },
+        "limit": 1,
+        "timeMin": "={{ $json.start }}",
+        "timeMax": "={{ $json.end }}",
+        "options": {
+          "query": "=id34{{ $('When Executed by Another Workflow').item.json.telefono }}@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1824,
+        2272
+      ],
+      "id": "ac4bd19a-ff73-41f6-ac47-9f648e780943",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CqfneOqg83BBhIYs",
+          "name": "Google Calendar jose@eternisia.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "info@eternisia.com",
+          "mode": "list",
+          "cachedResultName": "info@eternisia.com"
+        },
+        "eventId": "={{ $json.citaID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1440,
+        2272
+      ],
+      "id": "3567110e-191a-4a94-be78-3da7e7a2ef95",
+      "name": "Delete an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CqfneOqg83BBhIYs",
+          "name": "Google Calendar jose@eternisia.com"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "calendario-miguel-lopez",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ec052499-fc6b-4ab6-af97-23d163a8cfd7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Lopez"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6dfb6f01-20f6-4a6a-a32c-296e4118599b",
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "=calendario-laura-munoz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Muñoz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f1fc3fca-44a9-4cc3-adf2-76478b894730",
+                    "leftValue": "={{ $json.doctorNombre }}",
+                    "rightValue": "calendario-elena-crespo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Doctor Crespo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -2464,
+        2640
+      ],
+      "id": "35ca5100-f2ce-4105-a668-ea7a02bdc955",
+      "name": "Que Doctor Es?1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4de0725-a5be-40d9-b2b1-44bc0293a029",
+              "name": "citaID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1632,
+        2656
+      ],
+      "id": "29d7057e-3f93-4cf5-99ae-386f2f59986f",
+      "name": "ID de Cita1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "jose@eternisia.com",
+          "mode": "list",
+          "cachedResultName": "jose@eternisia.com"
+        },
+        "limit": 1,
+        "timeMin": "={{ $json.start }}",
+        "timeMax": "={{ $json.end }}",
+        "options": {
+          "query": "=id34{{ $('When Executed by Another Workflow').item.json.telefono }}@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1824,
+        2656
+      ],
+      "id": "b3921824-7529-48ac-b4de-125d92d5bebe",
+      "name": "Get many events1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "jose@eternisia.com",
+          "mode": "list",
+          "cachedResultName": "jose@eternisia.com"
+        },
+        "eventId": "={{ $json.citaID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1440,
+        2656
+      ],
+      "id": "edb2030b-21a6-4ae9-bd94-9817a2f66f08",
+      "name": "Delete an event1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4de0725-a5be-40d9-b2b1-44bc0293a029",
+              "name": "citaID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1632,
+        3040
+      ],
+      "id": "f8a354aa-57dc-47ea-968d-9a92e6daadbd",
+      "name": "ID de Cita2"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "espeejito@gmail.com",
+          "mode": "list",
+          "cachedResultName": "espeejito@gmail.com"
+        },
+        "limit": 1,
+        "timeMin": "={{ $json.start }}",
+        "timeMax": "={{ $json.end }}",
+        "options": {
+          "query": "=id34{{ $('When Executed by Another Workflow').item.json.telefono }}@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1824,
+        3040
+      ],
+      "id": "d0822983-a1cd-4575-b97c-e1569f65f623",
+      "name": "Get many events2"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "espeejito@gmail.com",
+          "mode": "list",
+          "cachedResultName": "espeejito@gmail.com"
+        },
+        "eventId": "={{ $json.citaID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1440,
+        3040
+      ],
+      "id": "7c28bb6d-de7f-4e92-8535-e399fd510d7d",
+      "name": "Delete an event2",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c98add91-dc9c-41ca-9c1e-c44b4c7d1ee6",
+              "name": "response",
+              "value": "\"La cita ha sido cancelada con éxito. ¿Quieres que te ayude a reagendar la cita para otro día?.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        2176
+      ],
+      "id": "9d58668f-db10-4319-b0bc-69f7bffe45cb",
+      "name": "Cancelada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c98add91-dc9c-41ca-9c1e-c44b4c7d1ee6",
+              "name": "response",
+              "value": "\"La cita ha sido cancelada con éxito. ¿Quieres que te ayude a reagendar la cita para otro día?.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        2592
+      ],
+      "id": "317f1134-c6f5-4cc5-b96c-0065177df656",
+      "name": "Cancelada1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c98add91-dc9c-41ca-9c1e-c44b4c7d1ee6",
+              "name": "response",
+              "value": "\"La cita ha sido cancelada con éxito. ¿Quieres que te ayude a reagendar la cita para otro día?.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        2960
+      ],
+      "id": "415df4e1-114b-4b25-b080-061eaa352910",
+      "name": "Cancelada2"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "nombre"
+            },
+            {
+              "name": "telefono"
+            },
+            {
+              "name": "zonaHoraria"
+            },
+            {
+              "name": "doctorNombre"
+            },
+            {
+              "name": "citaSolicitada"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2720,
+        2656
+      ],
+      "id": "1342bae6-a743-437b-8556-4132ecae00c2",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "789abfc7-f929-4ad3-9845-fc78dd42e9ff",
+              "name": "response",
+              "value": "No he podido cancelar la cita, prueba a decirme tu nombre y teléfono otra vez a ver si la encuentro.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        2384
+      ],
+      "id": "f90f010f-97f8-4d49-a6d2-19593b34c841",
+      "name": "No cancelada"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "789abfc7-f929-4ad3-9845-fc78dd42e9ff",
+              "name": "response",
+              "value": "No he podido cancelar la cita, prueba a decirme tu nombre y teléfono otra vez a ver si la encuentro.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        2752
+      ],
+      "id": "4fcb0e67-9f44-429c-b6e2-c1e4421db730",
+      "name": "No cancelada1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "789abfc7-f929-4ad3-9845-fc78dd42e9ff",
+              "name": "response",
+              "value": "No he podido cancelar la cita, prueba a decirme tu nombre y teléfono otra vez a ver si la encuentro.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        3152
+      ],
+      "id": "2048c255-d316-4b6e-8815-141393945b6e",
+      "name": "No cancelada2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a9907bb8-231d-444e-96dc-df43547a4853",
+              "name": "=start",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "a472df1e-7075-4be9-a034-2c7c73b1af0b",
+              "name": "end",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .plus({ days: 1 })\n   .toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2064,
+        2656
+      ],
+      "id": "7ebdacbb-ec74-4298-beef-6f3cffca9e9e",
+      "name": "Setear Variables1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a9907bb8-231d-444e-96dc-df43547a4853",
+              "name": "=start",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "a472df1e-7075-4be9-a034-2c7c73b1af0b",
+              "name": "end",
+              "value": "={{ DateTime.fromISO($('When Executed by Another Workflow').item.json.citaSolicitada)\n   .setZone($('When Executed by Another Workflow').item.json.zonaHoraria)\n   .startOf('day')\n   .plus({ days: 1 })\n   .toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2064,
+        3040
+      ],
+      "id": "3196f9ec-e07e-45d8-9bf4-ea3848441784",
+      "name": "Setear Variables2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Setear Variables": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ID de Cita": {
+      "main": [
+        [
+          {
+            "node": "Delete an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "ID de Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event": {
+      "main": [
+        [
+          {
+            "node": "Cancelada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No cancelada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Que Doctor Es?1": {
+      "main": [
+        [
+          {
+            "node": "Setear Variables",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Setear Variables1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Setear Variables2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ID de Cita1": {
+      "main": [
+        [
+          {
+            "node": "Delete an event1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events1": {
+      "main": [
+        [
+          {
+            "node": "ID de Cita1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event1": {
+      "main": [
+        [
+          {
+            "node": "Cancelada1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No cancelada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ID de Cita2": {
+      "main": [
+        [
+          {
+            "node": "Delete an event2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events2": {
+      "main": [
+        [
+          {
+            "node": "ID de Cita2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event2": {
+      "main": [
+        [
+          {
+            "node": "Cancelada2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No cancelada2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Que Doctor Es?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setear Variables1": {
+      "main": [
+        [
+          {
+            "node": "Get many events1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setear Variables2": {
+      "main": [
+        [
+          {
+            "node": "Get many events2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c292f9db-c477-401b-827c-f50f1eb6a57b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b2ac49aba93e08f2f88ad135eba13a82447778c44064f81b6f1e8aafed6857d6"
+  },
+  "id": "1vNb7JOO5xeRXL0W",
+  "tags": [
+    {
+      "createdAt": "2025-09-23T22:42:53.779Z",
+      "updatedAt": "2025-09-23T22:42:53.779Z",
+      "id": "Lt793ahTwh3fM0sj",
+      "name": "Psicologos"
+    },
+    {
+      "createdAt": "2025-09-23T22:43:35.319Z",
+      "updatedAt": "2025-09-23T22:43:35.319Z",
+      "id": "uHLV0lFPgFQ1o0yz",
+      "name": "LeadMagnet"
+    }
+  ]
+}
