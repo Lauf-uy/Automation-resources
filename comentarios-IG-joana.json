@@ -1,0 +1,332 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "insta-bot2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        80
+      ],
+      "id": "97a77f5e-2515-418f-8381-855e3aa0b247",
+      "name": "Webhook",
+      "webhookId": "b8f01461-6b9e-4cb6-9365-0619d60a4c53"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "29616f12-511c-4bc2-bb98-b65bbd90668e",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const eventTimestamp = $input.first().json.body.entry[0].time;\nconst now = Date.now();\n\nconst eventTimeMs = eventTimestamp < 1e12 ? eventTimestamp * 1000 : eventTimestamp;\n\nconst diffMinutes = (now - eventTimeMs) / 60000;\n\nreturn [\n  {\n    json: {\n      ...$json,\n      isRecent: diffMinutes <= 5\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        200
+      ],
+      "id": "e2a8630a-7c8e-42e1-b729-019d72694085",
+      "name": "calcula tiempo1"
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.body.entry[0].changes[0].value.from.id }}{{ $json.body.entry[0].changes[0].value.media.id }}",
+        "options": {
+          "scope": "node",
+          "historySize": 100000
+        }
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        420,
+        120
+      ],
+      "id": "c63386b3-db42-4f30-8123-a90fe9de9398",
+      "name": "Remove Duplicates1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "17ec41bc-661a-4a61-b2a8-7da23f2d3a31",
+              "leftValue": "={{ $json.isRecent }}",
+              "rightValue": "=true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        200,
+        200
+      ],
+      "id": "d7b3925d-1d75-46b4-88fd-30e14205564e",
+      "name": "hace menos de 5 mins?1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        420,
+        360
+      ],
+      "id": "90cb42cc-4487-4149-804d-ab2eacc6bb36",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5286e8b1-bd3c-4982-adc9-21257fe96e15",
+              "name": "comment",
+              "value": "={{ $json.body.entry[0].changes[0].value.text }}",
+              "type": "string"
+            },
+            {
+              "id": "ae9e9758-fcde-40fc-b3c7-e72429f1b3a5",
+              "name": "commentid",
+              "value": "={{ $json.body.entry[0].changes[0].value.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        120
+      ],
+      "id": "52096de2-2436-45ae-ac08-9be3cc20c5ea",
+      "name": "extrae comentario1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v23.0/**AQUI TU INSTAGRAM ID**/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AQUI VA TU ACCESS TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "recipient.comment_id",
+              "value": "={{ $json.commentid }}"
+            },
+            {
+              "name": "message.text",
+              "value": "AQUÍ PON EL MENSAJE QUE QUIERAS ENVIAR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        0
+      ],
+      "id": "8a557795-51cb-40e4-b2ca-5ee4ccc5da7f",
+      "name": "enviar link instagram1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "750cb694-1037-4597-a4bb-ab9e9d8411c0",
+              "leftValue": "={{ $json.comment }}",
+              "rightValue": "20k",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        120
+      ],
+      "id": "21fc226b-53c7-4f11-8f2d-a097f4ba04a7",
+      "name": "¿20k?2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        0
+      ],
+      "id": "57dbdca9-792b-4484-a258-2b6ffd25cb9b",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "calcula tiempo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "hace menos de 5 mins?1": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calcula tiempo1": {
+      "main": [
+        [
+          {
+            "node": "hace menos de 5 mins?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates1": {
+      "main": [
+        [
+          {
+            "node": "extrae comentario1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿20k?2": {
+      "main": [
+        [
+          {
+            "node": "enviar link instagram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extrae comentario1": {
+      "main": [
+        [
+          {
+            "node": "¿20k?2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar link instagram1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "",
+  "meta": {
+    "instanceId": "f461766a719206c7b34f30f0c5ffbfd243aa0529875ea6f0635cb8a8e3f5e369"
+  },
+  "tags": []
+}
