@@ -16,3 +16,12 @@ aqui gurdo datos y pipelines relacionados con automatizacion que pueden ser util
 
 - [n8n] Automatización: Generador de Scripts para Reels Virales Día 4 - Calendario de Adviento 04 de Diciembre 2025
 https://determined-basket-d82.notion.site/n8n-Generador-Autom-tico-de-Guiones-Virales-2b357541665480bda6e6d925985ce65f
+
+- Lista de heramientas IA y para que sirven Día 3 del Calendario de Adviento 3 de diciembre de 2025
+
+https://determined-basket-d82.notion.site/2b2575416654807c8c22c21ebea993b1?v=2b257541665480f381ec000cfecf4e91
+
+- [#4 El Backstage] Vende este flujo a CUALQUIER negocio  10 de agosto de 2025 https://determined-basket-d82.notion.site/n8n-Chatbot-Agenda-Reuniones-24757541665480428e22f50d47d3d06a
+  
+
+
